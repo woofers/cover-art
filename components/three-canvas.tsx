@@ -3,9 +3,11 @@ import { Canvas, GroupProps, MeshProps, useFrame } from '@react-three/fiber'
 import React, { Suspense, useRef } from 'react'
 import * as THREE from 'three'
 
+const assetPath = '/cover-art'
+
 const Model: React.FC<GroupProps> = props => {
   const groupRef = useRef<THREE.Group>(null!)
-  const { nodes, materials } = useGLTF('/data.glb')
+  const { nodes, materials } = useGLTF(`${assetPath}/data.glb`)
   useFrame((_state, delta) => {
     groupRef.current.rotation.y += delta * 0.5
     groupRef.current.rotation.z = -0.1
@@ -26,7 +28,7 @@ const Model: React.FC<GroupProps> = props => {
   )
 }
 
-useGLTF.preload('/data.glb')
+useGLTF.preload(`${assetPath}/data.glb`)
 
 export const ThreeCanvas: React.FC<{}> = () => (
   <div className="w-[900px] h-[900px]">
