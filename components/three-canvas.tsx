@@ -1,41 +1,48 @@
-import { Canvas, ThreeElements, useFrame } from '@react-three/fiber'
-import React, { useRef, useState } from 'react'
+import { useGLTF } from '@react-three/drei'
+import { Canvas, GroupProps, MeshProps, useFrame } from '@react-three/fiber'
+import React, { Suspense, useRef } from 'react'
 import * as THREE from 'three'
 
-const Box = (props: ThreeElements['mesh']) => {
-  const meshRef = useRef<THREE.Mesh>(null!)
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
-  useFrame((_state, delta) => (meshRef.current.rotation.x += delta))
+const Model: React.FC<GroupProps> = props => {
+  const groupRef = useRef<THREE.Group>(null!)
+  const { nodes, materials } = useGLTF('/data.glb')
+  useFrame((_state, delta) => {
+    groupRef.current.rotation.y += delta * 0.5
+    groupRef.current.rotation.z = -0.1
+    groupRef.current.rotation.x = 0.5
+  })
+  const geometry = (
+    nodes.Cube as unknown as { geometry: MeshProps['geometry'] }
+  ).geometry
   return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      scale={active ? 2.5 : 2}
-      onClick={_event => setActive(!active)}
-      onPointerOver={_event => setHover(true)}
-      onPointerOut={_event => setHover(false)}
-    >
-      <boxGeometry args={[1, 1.41, 0.0765]} />
-      <meshStandardMaterial color={hovered ? '#706F6F' : '#3E3D3D'} />
-    </mesh>
+    <group ref={groupRef} {...props} dispose={null} rotation={[0, -90, 0]}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={geometry}
+        material={materials.Material}
+      />
+    </group>
   )
 }
 
+useGLTF.preload('/data.glb')
+
 export const ThreeCanvas: React.FC<{}> = () => (
-  <div className="w-[900px] h-[300px]">
+  <div className="w-[900px] h-[900px]">
     <Canvas>
-      <ambientLight intensity={Math.PI / 2} />
-      <spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        decay={0}
-        intensity={Math.PI}
-      />
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      <Box position={[2.5, 0, 0]} />
-      <Box position={[-2.5, 0, 0]} />
+      <Suspense fallback={null}>
+        <ambientLight intensity={Math.PI / 2} />
+        <spotLight
+          position={[10, 10, 10]}
+          angle={0.15}
+          penumbra={1}
+          decay={0}
+          intensity={Math.PI}
+        />
+        <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+        <Model scale={1.5} position={[0, 0, 0]} />
+      </Suspense>
     </Canvas>
   </div>
 )
