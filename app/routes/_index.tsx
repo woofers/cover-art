@@ -1,14 +1,14 @@
 import type { MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => [
-  { title: 'New Remix SPA' },
-  { name: 'description', content: 'Welcome to Remix (SPA Mode)!' }
+  { title: 'Cover Art' },
+  { name: 'description', content: 'Testing cover art' }
 ]
 
 const Index = () => {
   return (
-    <div className="font-sans p-4">
-      <h1 className="text-3xl">Welcome to Remix (SPA Mode)</h1>
+    <div className="p-12">
+      <h1 className="text-3xl">Cover Art</h1>
       <ul className="list-disc mt-4 pl-6 space-y-2">
         <li>
           <a
