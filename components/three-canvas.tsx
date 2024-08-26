@@ -1,15 +1,11 @@
 import { OrbitControls, useGLTF, useTexture } from '@react-three/drei'
 import { Canvas, GroupProps, MeshProps, useFrame } from '@react-three/fiber'
-import React, { Suspense, useRef, useEffect } from 'react'
+import React, { Suspense, useRef, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import type { GLTF } from 'three-stdlib'
+import { type GLTF, SkeletonUtils } from 'three-stdlib'
 import { withBasename } from 'vite-paths'
 
 const caseModel = withBasename('data.glb')
-const texture = withBasename('ssbm.jpg')
-
-useGLTF.preload(caseModel)
-useTexture.preload(texture)
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,7 +17,7 @@ type GLTFResult = GLTF & {
 }
 
 const useSwapTexture = (path: string, material: THREE.MeshStandardMaterial) => {
-  const colorMap = useTexture(path)
+  const colorMap = useTexture(`${path}`)
   useEffect(() => {
     const map = material.map
     if (map) {
@@ -32,31 +28,56 @@ const useSwapTexture = (path: string, material: THREE.MeshStandardMaterial) => {
   return null
 }
 
-const Model: React.FC<GroupProps> = props => {
+const Model: React.FC<GroupProps & { cover: string }> = ({
+  cover,
+  ...props
+}) => {
   const groupRef = useRef<THREE.Group>(null!)
-  const { nodes, materials } = useGLTF(caseModel) as GLTFResult
-  useSwapTexture(texture, materials.Material)
-  useFrame((_state, delta) => {
-    groupRef.current.rotation.y += delta * 0.5
-    groupRef.current.rotation.z = -0.1
-    groupRef.current.rotation.x = 0.5
-  })
+  const { nodes, materials: mat } = useGLTF(
+    `${caseModel}?key=${cover}`
+  ) as GLTFResult
+  const material = mat.Material
   const { geometry } = nodes.Cube
-
+  useSwapTexture(cover, material)
+  useFrame((_state, delta) => {
+    groupRef.current.rotation.y += delta * 0.45
+  })
   return (
-    <group ref={groupRef} {...props} dispose={null} rotation={[0, -90, 0]}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={geometry}
-        material={materials.Material}
-      />
+    <group
+      ref={groupRef}
+      {...props}
+      dispose={null}
+      rotation={[
+        Math.PI * (1 / 2) * (28 / 90),
+        -Math.PI / 2,
+        -Math.PI * (1 / 2) * (5 / 90)
+      ]}
+    >
+      <mesh castShadow receiveShadow geometry={geometry} material={material} />
     </group>
   )
 }
 
+type WithPreload<T extends {}> = T & { preload: () => void }
+
+const withModel = (game: string) => {
+  const gameWithBase = withBasename(game)
+  const GameModel: React.FC<GroupProps> = props => (
+    <Model {...props} cover={gameWithBase} />
+  )
+  const GameModelWithPreload = GameModel as WithPreload<typeof GameModel>
+  GameModelWithPreload.preload = () => {
+    useGLTF.preload(`${caseModel}?key=${gameWithBase}`)
+    useTexture.preload(gameWithBase)
+  }
+  return GameModel
+}
+
+const MarioParty4 = withModel('mp4.jpg')
+const SuperSmashBrosMelee = withModel('ssbm.jpg')
+
 export const ThreeCanvas: React.FC<{}> = () => (
-  <div className="w-[900px] h-[900px]">
+  <div className="w-[1200px] h-[900px]">
     <Canvas>
       <Suspense fallback={null}>
         <OrbitControls />
@@ -69,7 +90,8 @@ export const ThreeCanvas: React.FC<{}> = () => (
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <Model scale={1.5} position={[0, 0, 0]} />
+        <MarioParty4 scale={1.5} position={[1.75, 0, 0]} />
+        <SuperSmashBrosMelee scale={1.5} position={[-1.75, 0, 0]} />
       </Suspense>
     </Canvas>
   </div>
