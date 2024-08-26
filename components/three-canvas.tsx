@@ -1,6 +1,6 @@
-import { useGLTF } from '@react-three/drei'
+import { OrbitControls, useGLTF } from '@react-three/drei'
 import { Canvas, GroupProps, MeshProps, useFrame } from '@react-three/fiber'
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useRef, useEffect } from 'react'
 import * as THREE from 'three'
 
 const assetPath = '/cover-art'
@@ -34,6 +34,7 @@ export const ThreeCanvas: React.FC<{}> = () => (
   <div className="w-[900px] h-[900px]">
     <Canvas>
       <Suspense fallback={null}>
+        <OrbitControls />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}
