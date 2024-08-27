@@ -90,7 +90,7 @@ export const ThreeCanvas: React.FC<{}> = () => (
           intensity={Math.PI}
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <MarioParty4 scale={1.5} position={[1.75, 0, 0]} />
+        <MarioParty4 scale={1.5} position={[-1.75, 0, 0]} />
         <SuperSmashBrosMelee scale={1.5} position={[1.75, 0, 0]} />
       </Suspense>
     </Canvas>
