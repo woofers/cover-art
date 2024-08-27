@@ -7,6 +7,7 @@ import {
 } from '@remix-run/react'
 import './tailwind.css'
 import React from 'react'
+import { withBasename } from 'vite-paths'
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({
   children
@@ -15,6 +16,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="shortcut icon" href={withBasename('favicon.ico')}></link>
       <Meta />
       <Links />
     </head>
