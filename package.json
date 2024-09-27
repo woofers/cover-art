@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@hono/node-server": "^1.13.1",
     "@remix-run/dev": "^2.11.2",
     "@rsbuild/core": "^1.0.7",
     "@rsbuild/plugin-react": "^1.0.2",
@@ -34,6 +35,7 @@
     "autoprefixer": "^10.4.19",
     "express": "^4.21.0",
     "gh-pages": "^6.1.1",
+    "hono": "^4.6.3",
     "postcss": "^8.4.38",
     "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.4",

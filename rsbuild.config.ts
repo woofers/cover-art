@@ -1,5 +1,4 @@
 import { pluginReact } from '@rsbuild/plugin-react'
-import { basename } from './vite-paths'
 
 export default {
   plugins: [pluginReact()],

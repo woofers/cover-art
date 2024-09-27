@@ -1,15 +1,16 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
-import express from 'express'
 
-const serverRender = serverAPI => async (_req, res) => {
+import { serve } from '@hono/node-server'
+import { Hono } from 'hono'
+
+const serverRender = serverAPI => async c => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
   const markup = indexModule.render()
   const template = await serverAPI.environments.web.getTransformedHtml('index')
   const html = template.replace('<!--app-content-->', markup)
-  res.writeHead(200, {
-    'Content-Type': 'text/html'
-  })
-  res.end(html)
+  c.header('Content-Type', 'text/html')
+  c.status(200)
+  return c.body(html)
 }
 
 async function startDevServer() {
@@ -17,23 +18,32 @@ async function startDevServer() {
   const rsbuild = await createRsbuild({
     rsbuildConfig: content
   })
-  const app = express()
+  const app = new Hono()
   const rsbuildServer = await rsbuild.createDevServer()
   const serverRenderMiddleware = serverRender(rsbuildServer)
-  app.get('/', async (req, res, next) => {
+  app.get('/', async (c, next) => {
     try {
-      await serverRenderMiddleware(req, res, next)
+      const res = await serverRenderMiddleware(c)
+      return res
     } catch (err) {
       console.error('SSR render error, downgrade to CSR...\n', err)
-      next()
+      await next()
     }
   })
 
-  app.use(rsbuildServer.middlewares)
-  const httpServer = app.listen(rsbuildServer.port, async () => {
-    await rsbuildServer.afterListen()
-  })
-  rsbuildServer.connectWebSocket({ server: httpServer })
+  app.use((c, next) =>
+    rsbuildServer.middlewares(c.req, c.res, () => void next())
+  )
+  const server = serve(
+    {
+      fetch: app.fetch,
+      port: rsbuildServer.port
+    },
+    () => {
+      rsbuildServer.afterListen()
+    }
+  )
+  rsbuildServer.connectWebSocket({ server: server })
 }
 
 startDevServer(process.cwd())
