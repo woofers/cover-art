@@ -1,7 +1,8 @@
 /**
  * @type {string}
  */
-export const basename = '/cover-art/'
+export const basename =
+  process.env.NODE_ENV !== 'development' ? '/cover-art/' : '/'
 
 /**
  * @type {(path: string) => string}
