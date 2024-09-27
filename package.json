@@ -2,13 +2,12 @@
   "name": "cover-art",
   "private": true,
   "sideEffects": false,
-  "type": "module",
   "scripts": {
     "clean": "rimraf build dist",
     "build": "rsbuild build",
-    "dev": "rsbuild dev",
+    "dev": "node ./server.mjs",
     "lint": "biome lint --error-on-warnings",
-    "start": "rsbuild preview",
+    "start": "node ./prod-server.cjs",
     "format": "biome format --write",
     "typecheck": "tsc"
   },
@@ -33,6 +32,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.19",
+    "express": "^4.21.0",
     "gh-pages": "^6.1.1",
     "postcss": "^8.4.38",
     "rimraf": "^6.0.1",

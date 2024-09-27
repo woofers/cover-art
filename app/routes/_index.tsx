@@ -7,7 +7,6 @@ export const meta: MetaFunction = () => [
 ]
 
 const Index = () => {
-  console.log(process.env.NODE_ENV)
   return <ThreeCanvas />
 }
 
