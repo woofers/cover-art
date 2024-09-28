@@ -4,7 +4,7 @@ import App from './app'
 
 let responseStatusCode = 200
 
-export async function render() {
+export async function render(scripts: string[] = []) {
   const body = new PassThrough()
   const ReactDOMServer = await import('react-dom/server')
   const promise = new Promise<void>((resolve, reject) => {
@@ -13,7 +13,7 @@ export async function render() {
         <App />
       </StrictMode>,
       {
-        bootstrapScripts: ['./main.js'],
+        bootstrapScripts: scripts,
         onAllReady() {
           resolve()
         },

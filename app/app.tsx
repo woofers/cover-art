@@ -1,4 +1,5 @@
 import Index from './routes/_index'
+import "./tailwind.css"
 
 const App = () => (
   <html lang="en" suppressHydrationWarning>
