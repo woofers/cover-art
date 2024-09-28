@@ -7,10 +7,13 @@ const h = require('hono')
 const serverRender = async c => {
   const remotesPath = path.join(process.cwd(), `./build/server/index.js`)
   const importedApp = require(remotesPath)
-  const html = await importedApp.render()
-  c.header('Content-Type', 'text/html')
-  c.status(200)
-  return c.body(html)
+  const { stream } = await importedApp.render()
+  const responseHeaders = new Headers()
+  responseHeaders.set('Content-Type', 'text/html')
+  return new Response(stream, {
+    headers: responseHeaders,
+    status: 200
+  })
 }
 
 const port = process.env.PORT || 3000

@@ -2,7 +2,7 @@
   "name": "cover-art",
   "private": true,
   "sideEffects": false,
- 
+  "type": "commonjs",
   "scripts": {
     "clean": "rimraf build dist",
     "build": "rsbuild build",
@@ -42,8 +42,7 @@
     "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
-    "vite-tsconfig-paths": "^4.2.1",
-    "wrangler": "^3.78.12"
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
     "node": ">=20.17.0"
