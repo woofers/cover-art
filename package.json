@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "rimraf build dist",
-    "build": "node ./build.mjs",
+    "build": "rsbuild build",
     "dev": "node ./server.mjs",
     "lint": "biome lint --error-on-warnings",
     "start": "node ./prod-server.cjs",
@@ -19,7 +19,6 @@
     "@remix-run/react": "^2.11.2",
     "@types/three": "^0.167.2",
     "class-variance-authority": "^0.7.0",
-    "glob": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.5.2",
@@ -28,6 +27,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@fastify/express": "^4.0.1",
     "@hono/node-server": "^1.13.1",
     "@remix-run/dev": "^2.11.2",
     "@rsbuild/core": "^1.0.7",
@@ -36,7 +36,7 @@
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.19",
     "express": "^4.21.0",
-    "fast-glob": "^3.3.2",
+    "fastify": "^5.0.0",
     "gh-pages": "^6.1.1",
     "hono": "^4.6.3",
     "postcss": "^8.4.38",

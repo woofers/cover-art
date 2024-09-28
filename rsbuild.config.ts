@@ -1,7 +1,8 @@
 import { pluginReact } from '@rsbuild/plugin-react'
+import { pluginEmitStats } from './stats-plugin'
 
 export default {
-  plugins: [pluginReact()],
+  plugins: [pluginReact(), pluginEmitStats()],
   environments: {
     web: {
       output: {

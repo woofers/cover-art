@@ -2,8 +2,7 @@ import { createRsbuild, loadConfig } from '@rsbuild/core'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 
-const getStats = async serverAPI => {
-  const stats = await serverAPI.environments.web.getStats()
+const getStats = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles()
@@ -14,7 +13,8 @@ const getStats = async serverAPI => {
 
 const serverRender = serverAPI => async c => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
-  const [jsChunks, cssEntry] = await getStats(serverAPI)
+  const stats = await serverAPI.environments.web.getStats()
+  const [jsChunks, cssEntry] = await getStats(stats)
   const { stream } = await indexModule.render(jsChunks)
   const responseHeaders = new Headers()
   responseHeaders.set('Content-Type', 'text/html')
@@ -42,6 +42,8 @@ async function startDevServer() {
       await next()
     }
   })
+
+  console.log(rsbuildServer.middlewares.handle.toString())
 
   app.use((c, next) =>
     rsbuildServer.middlewares(c.req, c.res, () => void next())
