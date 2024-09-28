@@ -36,17 +36,20 @@ async function startDevServer() {
   await app.register(expressFastify)
   const rsbuildServer = await rsbuild.createDevServer()
   const serverRenderMiddleware = serverRender(rsbuildServer)
-  app.get('/', async (request, reply, done) => {
-    console.log("hi", done)
+  app.get('/', async (request, reply) => {
     try {
       const res = await serverRenderMiddleware(request, reply)
       return res
     } catch (err) {
       console.error('SSR render error, downgrade to CSR...\n', err)
-      //await next()
     }
   })
-  app.use(rsbuildServer.middlewares)
+  app.use((req, res, next) => {
+    if (req.path === '/') {
+      return next()
+    }
+    return rsbuildServer.middlewares(req, res, next)
+  })
 
 
 
