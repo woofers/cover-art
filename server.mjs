@@ -6,9 +6,13 @@ import { Hono } from 'hono'
 const serverRender = serverAPI => async c => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
   const html = await indexModule.render()
-  c.header('Content-Type', 'text/html')
-  c.status(200)
-  return c.body(html)
+  const { stream } = await indexModule.render()
+  const responseHeaders = new Headers()
+  responseHeaders.set('Content-Type', 'text/html')
+  return new Response(stream, {
+    headers: responseHeaders,
+    status: 200
+  })
 }
 
 async function startDevServer() {
@@ -18,6 +22,9 @@ async function startDevServer() {
   })
   const app = new Hono()
   const rsbuildServer = await rsbuild.createDevServer()
+  const stats = await rsbuildServer.environments.web.getStats()
+  const files = Array.from(stats.compilation.namedChunks.keys())
+  console.log(files)
   const serverRenderMiddleware = serverRender(rsbuildServer)
   app.get('/', async (c, next) => {
     try {

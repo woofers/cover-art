@@ -15,8 +15,6 @@ export async function render() {
       {
         bootstrapScripts: ['./main.js'],
         onAllReady() {
-          const responseHeaders = new Headers()
-          responseHeaders.set('Content-Type', 'text/html')
           resolve()
         },
         onShellReady() {
@@ -27,7 +25,6 @@ export async function render() {
         },
         onError(error: unknown) {
           console.error(error)
-          responseStatusCode = 500
         }
       }
     )
