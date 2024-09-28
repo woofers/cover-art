@@ -1,6 +1,6 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import Fastify from 'fastify'
+import expressFastify from '@fastify/express'
 
 const getStats = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
@@ -11,17 +11,18 @@ const getStats = async stats => {
   return [jsChunks, cssEntry]
 }
 
-const serverRender = serverAPI => async c => {
+const serverRender = serverAPI => async (request, reply) => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
   const stats = await serverAPI.environments.web.getStats()
   const [jsChunks, cssEntry] = await getStats(stats)
   const { stream } = await indexModule.render(jsChunks)
   const responseHeaders = new Headers()
   responseHeaders.set('Content-Type', 'text/html')
-  return new Response(stream, {
+  const response = new Response(stream, {
     headers: responseHeaders,
     status: 200
   })
+  return reply.send(response)
 }
 
 async function startDevServer() {
@@ -29,35 +30,29 @@ async function startDevServer() {
   const rsbuild = await createRsbuild({
     rsbuildConfig: content
   })
-  const app = new Hono()
+  const app = Fastify({
+    logger: false
+  })
+  await app.register(expressFastify)
   const rsbuildServer = await rsbuild.createDevServer()
-
   const serverRenderMiddleware = serverRender(rsbuildServer)
-  app.get('/', async (c, next) => {
+  app.get('/', async (request, reply, done) => {
+    console.log("hi", done)
     try {
-      const res = await serverRenderMiddleware(c)
+      const res = await serverRenderMiddleware(request, reply)
       return res
     } catch (err) {
       console.error('SSR render error, downgrade to CSR...\n', err)
-      await next()
+      //await next()
     }
   })
+  app.use(rsbuildServer.middlewares)
 
-  console.log(rsbuildServer.middlewares.handle.toString())
 
-  app.use((c, next) =>
-    rsbuildServer.middlewares(c.req, c.res, () => void next())
-  )
-  const server = serve(
-    {
-      fetch: app.fetch,
-      port: rsbuildServer.port
-    },
-    () => {
-      rsbuildServer.afterListen()
-    }
-  )
-  rsbuildServer.connectWebSocket({ server: server })
+
+  await app.listen({ port: rsbuildServer.port })
+  await rsbuildServer.afterListen()
+  rsbuildServer.connectWebSocket({ server: app.server })
 }
 
 startDevServer(process.cwd())
