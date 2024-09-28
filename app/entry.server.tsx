@@ -1,13 +1,12 @@
-import { StrictMode } from 'react'
-import ReactDOMServer from 'react-dom/server'
+import React, { StrictMode } from 'react'
 import App from './routes/_index'
 
-export function render() {
+export async function render() {
+  const ReactDOMServer = await import('react-dom/server')
   return ReactDOMServer.renderToString(
     <StrictMode>
-      <div className="flex min-h-screen flex-col text-zinc-800 bg-zinc-200 font-sans">
-        <App />
-      </div>
+      <App />
     </StrictMode>
   )
 }
+

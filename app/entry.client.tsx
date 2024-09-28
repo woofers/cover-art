@@ -1,14 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './routes/_index'
-import './tailwind.css'
+import { StrictMode, startTransition } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import App from './app'
 
-const root = createRoot(document.getElementById('root')!)
-
-root.render(
-  <StrictMode>
-    <div className="flex min-h-screen flex-col text-zinc-800 bg-zinc-200 font-sans">
+startTransition(() => {
+  hydrateRoot(
+    document,
+    <StrictMode>
       <App />
-    </div>
-  </StrictMode>
-)
+    </StrictMode>
+  )
+})

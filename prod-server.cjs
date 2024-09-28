@@ -4,12 +4,10 @@ const honoServer = require('@hono/node-server')
 const honoStatic = require('@hono/node-server/serve-static')
 const h = require('hono')
 
-const serverRender = c => {
+const serverRender = async c => {
   const remotesPath = path.join(process.cwd(), `./build/server/index.js`)
   const importedApp = require(remotesPath)
-  const markup = importedApp.render()
-  const template = fs.readFileSync(`${process.cwd()}/build/index.html`, 'utf-8')
-  const html = template.replace(`<!--app-content-->`, markup)
+  const html = await importedApp.render()
   c.header('Content-Type', 'text/html')
   c.status(200)
   return c.body(html)
@@ -21,7 +19,7 @@ async function preview() {
   const app = new h.Hono()
   app.get('/', async (c, next) => {
     try {
-      const res = serverRender(c)
+      const res = await serverRender(c)
       return res
     } catch (err) {
       console.error('SSR render error, downgrade to CSR...\n', err)

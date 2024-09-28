@@ -5,9 +5,7 @@ import { Hono } from 'hono'
 
 const serverRender = serverAPI => async c => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
-  const markup = indexModule.render()
-  const template = await serverAPI.environments.web.getTransformedHtml('index')
-  const html = template.replace('<!--app-content-->', markup)
+  const html = await indexModule.render()
   c.header('Content-Type', 'text/html')
   c.status(200)
   return c.body(html)
