@@ -19,8 +19,9 @@
     "@remix-run/react": "^2.11.2",
     "@types/three": "^0.167.2",
     "class-variance-authority": "^0.7.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.0.0-rc-3edc000d-20240926",
+    "react-dom": "19.0.0-rc-3edc000d-20240926",
+    "suspend-react": "^0.1.3",
     "tailwind-merge": "^2.5.2",
     "three": "^0.167.1",
     "three-stdlib": "^2.32.2"

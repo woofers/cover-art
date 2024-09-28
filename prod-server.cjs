@@ -19,7 +19,9 @@ const serverRender = async (c, manifest) => {
 const port = process.env.PORT || 3000
 
 const readManifest = async () => {
-  const content = await fs.readFile('./build/build-manifest.json', { encoding: 'utf-8' })
+  const content = await fs.readFile('./build/build-manifest.json', {
+    encoding: 'utf-8'
+  })
   const data = JSON.parse(content)
   return data
 }

@@ -6,8 +6,8 @@ const getStats = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles()
-  const jsChunks = entryChunks.filter(chunk => chunk.endsWith(".js"))
-  const cssEntry = entryChunks.find(chunk => chunk.endsWith(".css"))
+  const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
+  const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css'))
   return [jsChunks, cssEntry]
 }
 
@@ -50,8 +50,6 @@ async function startDevServer() {
     }
     return rsbuildServer.middlewares(req, res, next)
   })
-
-
 
   await app.listen({ port: rsbuildServer.port })
   await rsbuildServer.afterListen()
