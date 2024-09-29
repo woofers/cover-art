@@ -1,11 +1,20 @@
 import { writeFile } from 'node:fs/promises'
 
 /**
+ * @param {string} path
+ * @return {string}
+ */
+const addLeadingSlash = (path) => {
+  if (path.startsWith('/')) return path
+  return `/${path}`
+}
+
+/**
  */
 const getAssetMap = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
-  const entryChunks = indexChunk.getFiles()
+  const entryChunks = indexChunk.getFiles().map(chunk => addLeadingSlash(chunk))
   const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
   const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css'))
   const data = {

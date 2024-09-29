@@ -1,37 +1,43 @@
 import React, { StrictMode } from 'react'
-import { PassThrough } from 'stream'
 import App from './app'
-import type { AssetMap } from './utils'
+import { isBot, type AssetMap } from './utils'
 
-export async function render(assetMap = {} as AssetMap) {
-  const body = new PassThrough()
-  const ReactDOMServer = await import('react-dom/server')
-  const promise = new Promise<void>((resolve, reject) => {
-    const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
+const headers = { 'content-type': 'text/html' }
+
+export async function render(
+  assetMap = {} as AssetMap,
+  ua: string
+) {
+  const {renderToReadableStream} = await import(
+    'react-dom/server.edge' as 'react-dom/server'
+  )
+  const isCrawler = isBot(ua)
+  try {
+    let didError = false
+    const stream = await renderToReadableStream(
       <StrictMode>
         <App assetMap={assetMap} />
       </StrictMode>,
       {
         bootstrapScripts: assetMap.chunks['/'],
         bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
-        onAllReady() {
-          resolve()
-        },
-        onShellReady() {
-          pipe(body)
-        },
-        onShellError(error: unknown) {
-          reject(error)
-        },
         onError(error: unknown) {
-          console.error(error)
+          didError = true
+          console.error(error ?? "Request was aborted")
         }
       }
     )
-    setTimeout(() => {
-      abort()
-      reject()
-    }, 10_000)
-  })
-  return { stream: body, promise }
+    if (isCrawler) {
+      await stream.allReady
+    }
+    return new Response(stream, {
+      status: didError ? 500 : 200,
+      headers
+    })
+  } catch (error) {
+    return new Response('<h1>Something went wrong</h1>', {
+      status: 500,
+      headers
+    })
+  }
 }

@@ -1,12 +1,14 @@
 import { pluginReact } from '@rsbuild/plugin-react'
-import { pluginEmitStats } from './stats-plugin'
+import { pluginEmitStats } from './plugin-emit-stats'
+
+const distPath = { root: 'build' }
 
 export default {
   plugins: [pluginReact(), pluginEmitStats()],
   environments: {
     web: {
       output: {
-        distPath: { root: 'build' },
+        distPath,
         target: 'web'
       },
       source: {
@@ -29,10 +31,7 @@ export default {
       }
     }
   },
-  html: {
-    template: './index.html'
-  },
   output: {
-    distPath: { root: 'build' }
+    distPath
   }
 }

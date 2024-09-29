@@ -19,15 +19,10 @@ const getAssetMap = async stats => {
 
 const serverRender = serverAPI => async (request, reply) => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
+  const ua = request.headers['user-agent']
   const stats = await serverAPI.environments.web.getStats()
   const assetMap = await getAssetMap(stats)
-  const { stream } = await indexModule.render(assetMap)
-  const responseHeaders = new Headers()
-  responseHeaders.set('Content-Type', 'text/html')
-  const response = new Response(stream, {
-    headers: responseHeaders,
-    status: 200
-  })
+  const response = await indexModule.render(assetMap, ua)
   return reply.send(response)
 }
 
@@ -42,24 +37,24 @@ async function startDevServer() {
   await app.register(expressFastify)
   const rsbuildServer = await rsbuild.createDevServer()
   const serverRenderMiddleware = serverRender(rsbuildServer)
-  app.get('/', async (request, reply) => {
+  app.get('*', async (request, reply) => {
     try {
       const res = await serverRenderMiddleware(request, reply)
       return res
     } catch (err) {
-      console.error('SSR render error, downgrade to CSR...\n', err)
+      console.error('SSR render error\n', err)
     }
   })
   app.use((req, res, next) => {
+    console.log(req.path)
     if (req.path === '/') {
       return next()
     }
     return rsbuildServer.middlewares(req, res, next)
   })
-
   await app.listen({ port: rsbuildServer.port })
   await rsbuildServer.afterListen()
   rsbuildServer.connectWebSocket({ server: app.server })
 }
 
-startDevServer(process.cwd())
+void startDevServer(process.cwd())

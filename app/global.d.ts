@@ -1,10 +1,9 @@
-import type { AssetMap } from "./utils"
+import type { AssetMap } from './utils'
 
 declare global {
-    interface Window {
-      assetPath: AssetMap
-    }
+  interface Window {
+    assetPath: AssetMap
   }
-  
+}
 
 export {}

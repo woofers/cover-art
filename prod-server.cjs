@@ -7,13 +7,9 @@ const h = require('hono')
 const serverRender = async (c, assetMap) => {
   const remotesPath = path.join(process.cwd(), `./build/server/index.js`)
   const importedApp = require(remotesPath)
-  const { stream } = await importedApp.render(assetMap)
-  const responseHeaders = new Headers()
-  responseHeaders.set('Content-Type', 'text/html')
-  return new Response(stream, {
-    headers: responseHeaders,
-    status: 200
-  })
+  const ua = c.req.header('user-agent')
+  const response = await importedApp.render(assetMap, ua)
+  return response
 }
 
 const port = process.env.PORT || 3000
@@ -29,16 +25,16 @@ const readManifest = async () => {
 async function preview() {
   const app = new h.Hono()
   const assetMap = await readManifest()
-  app.get('/', async (c, next) => {
+  app.use('/*', honoStatic.serveStatic({ root: './build', index: './not-found' }))
+  app.get('*', async (c, next) => {
     try {
       const res = await serverRender(c, assetMap)
       return res
     } catch (err) {
-      console.error('SSR render error, downgrade to CSR...\n', err)
+      console.error('SSR render error\n', err)
       await next()
     }
   })
-  app.use('/*', honoStatic.serveStatic({ root: './build' }))
   honoServer.serve(
     {
       fetch: app.fetch,
@@ -50,6 +46,6 @@ async function preview() {
   )
 }
 
-preview(process.cwd())
+void preview(process.cwd())
 
 module.exports = preview
