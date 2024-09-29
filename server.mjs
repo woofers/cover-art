@@ -3,7 +3,13 @@ import Fastify from 'fastify'
 import expressFastify from '@fastify/express'
 import { getAssetMap } from './plugin-emit-stats.mjs'
 
+/**
+ * @param {Awaited<ReturnType<Awaited<ReturnType<import('@rsbuild/core').createRsbuild>>['createDevServer']>>} serverAPI
+ */
 const serverRender = serverAPI => async (request, reply) => {
+  /**
+   * @type {{ render: (...args: unknown[]) => Promise<Response> }}
+   */
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
   const ua = request.headers['user-agent']
   const stats = await serverAPI.environments.web.getStats()
