@@ -1,11 +1,11 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { createRequire } from "node:module"
+import { createRequire } from 'node:module'
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { Hono } from 'hono'
 
-const requireFile = createRequire(import.meta.url);
+const requireFile = createRequire(import.meta.url)
 
 const serverRender = async (c, assetMap) => {
   const remotesPath = path.join(process.cwd(), assetMap.server)
@@ -34,10 +34,7 @@ async function preview() {
     console.error(e)
     return
   }
-  app.use(
-    '/*',
-    serveStatic({ root: assetMap.public, index: './not-found' })
-  )
+  app.use('/*', serveStatic({ root: assetMap.public, index: './not-found' }))
   app.get('*', async (c, next) => {
     try {
       const res = await serverRender(c, assetMap)

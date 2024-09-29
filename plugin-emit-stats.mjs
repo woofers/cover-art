@@ -11,7 +11,7 @@ const addSlash = path => {
 
 /**
  */
-export const getAssetMap = async (stats) => {
+export const getAssetMap = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles().map(chunk => addSlash(chunk))
@@ -41,7 +41,8 @@ export const pluginEmitStats = (options = {}) => {
         const stats = result.stats['stats']
         const webStats = stats.find(stat => stat.compilation.name === 'web')
         const folder = result.environments.web.config.output.distPath.root
-        const server = result.environments.ssr.config.output.distPath.root + '/index.js'
+        const server =
+          result.environments.ssr.config.output.distPath.root + '/index.js'
         const assetMap = await getAssetMap(webStats)
         assetMap.server = `./${server}`
         assetMap.public = `./${folder}`
