@@ -2,13 +2,12 @@
   "name": "cover-art",
   "private": true,
   "sideEffects": false,
-  "type": "module",
   "scripts": {
     "clean": "rimraf build dist",
     "build": "rsbuild build",
     "dev": "node ./server.mjs",
     "lint": "biome lint --error-on-warnings",
-    "start": "node ./prod-server.cjs",
+    "start": "node ./prod-server.mjs",
     "format": "biome format --write",
     "typecheck": "tsc"
   },

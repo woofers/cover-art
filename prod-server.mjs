@@ -1,12 +1,15 @@
-const fs = require('fs/promises')
-const path = require('path')
-const honoServer = require('@hono/node-server')
-const honoStatic = require('@hono/node-server/serve-static')
-const h = require('hono')
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+import { createRequire } from "node:module"
+import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
+import { Hono } from 'hono'
+
+const requireFile = createRequire(import.meta.url);
 
 const serverRender = async (c, assetMap) => {
   const remotesPath = path.join(process.cwd(), assetMap.server)
-  const importedApp = require(remotesPath)
+  const importedApp = requireFile(remotesPath)
   const ua = c.req.header('user-agent')
   const response = await importedApp.render(assetMap, ua)
   return response
@@ -15,7 +18,7 @@ const serverRender = async (c, assetMap) => {
 const port = process.env.PORT || 3000
 
 const readManifest = async () => {
-  const content = await fs.readFile('./build/build-manifest.json', {
+  const content = await readFile('./build/build-manifest.json', {
     encoding: 'utf-8'
   })
   const data = JSON.parse(content)
@@ -23,18 +26,17 @@ const readManifest = async () => {
 }
 
 async function preview() {
-  const app = new h.Hono()
+  const app = new Hono()
   let assetMap
   try {
     assetMap = await readManifest()
   } catch (e) {
     console.error(e)
-    process.exit(1)
     return
   }
   app.use(
     '/*',
-    honoStatic.serveStatic({ root: assetMap.public, index: './not-found' })
+    serveStatic({ root: assetMap.public, index: './not-found' })
   )
   app.get('*', async (c, next) => {
     try {
@@ -45,7 +47,7 @@ async function preview() {
       await next()
     }
   })
-  honoServer.serve(
+  serve(
     {
       fetch: app.fetch,
       port
@@ -58,4 +60,4 @@ async function preview() {
 
 void preview(process.cwd())
 
-module.exports = preview
+export default preview
