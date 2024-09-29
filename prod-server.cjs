@@ -5,7 +5,7 @@ const honoStatic = require('@hono/node-server/serve-static')
 const h = require('hono')
 
 const serverRender = async (c, assetMap) => {
-  const remotesPath = path.join(process.cwd(), `./build/server/index.js`)
+  const remotesPath = path.join(process.cwd(), assetMap.server)
   const importedApp = require(remotesPath)
   const ua = c.req.header('user-agent')
   const response = await importedApp.render(assetMap, ua)
@@ -34,7 +34,7 @@ async function preview() {
   }
   app.use(
     '/*',
-    honoStatic.serveStatic({ root: './build', index: './not-found' })
+    honoStatic.serveStatic({ root: assetMap.public, index: './not-found' })
   )
   app.get('*', async (c, next) => {
     try {

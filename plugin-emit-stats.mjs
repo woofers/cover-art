@@ -40,9 +40,13 @@ export const pluginEmitStats = (options = {}) => {
       api.onAfterBuild(async result => {
         const stats = result.stats['stats']
         const webStats = stats.find(stat => stat.compilation.name === 'web')
+        const folder = result.environments.web.config.output.distPath.root
+        const server = result.environments.ssr.config.output.distPath.root + '/index.js'
         const assetMap = await getAssetMap(webStats)
+        assetMap.server = `./${server}`
+        assetMap.public = `./${folder}`
         await writeFile(
-          './build/build-manifest.json',
+          `./${folder}/build-manifest.json`,
           JSON.stringify(assetMap, null, 2),
           'utf-8'
         )
