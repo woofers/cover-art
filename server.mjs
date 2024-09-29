@@ -2,20 +2,26 @@ import { createRsbuild, loadConfig } from '@rsbuild/core'
 import Fastify from 'fastify'
 import expressFastify from '@fastify/express'
 
-const getStats = async stats => {
+const getAssetMap = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles()
   const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
   const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css'))
-  return [jsChunks, cssEntry]
+  const data = {
+    chunks: {
+      '/': jsChunks
+    },
+    css: cssEntry
+  }
+  return data
 }
 
 const serverRender = serverAPI => async (request, reply) => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
   const stats = await serverAPI.environments.web.getStats()
-  const [jsChunks, cssEntry] = await getStats(stats)
-  const { stream } = await indexModule.render(jsChunks)
+  const assetMap = await getAssetMap(stats)
+  const { stream } = await indexModule.render(assetMap)
   const responseHeaders = new Headers()
   responseHeaders.set('Content-Type', 'text/html')
   const response = new Response(stream, {

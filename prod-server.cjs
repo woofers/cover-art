@@ -4,10 +4,10 @@ const honoServer = require('@hono/node-server')
 const honoStatic = require('@hono/node-server/serve-static')
 const h = require('hono')
 
-const serverRender = async (c, manifest) => {
+const serverRender = async (c, assetMap) => {
   const remotesPath = path.join(process.cwd(), `./build/server/index.js`)
   const importedApp = require(remotesPath)
-  const { stream } = await importedApp.render(manifest.chunks['/'])
+  const { stream } = await importedApp.render(assetMap)
   const responseHeaders = new Headers()
   responseHeaders.set('Content-Type', 'text/html')
   return new Response(stream, {
@@ -28,10 +28,10 @@ const readManifest = async () => {
 
 async function preview() {
   const app = new h.Hono()
-  const manifest = await readManifest()
+  const assetMap = await readManifest()
   app.get('/', async (c, next) => {
     try {
-      const res = await serverRender(c, manifest)
+      const res = await serverRender(c, assetMap)
       return res
     } catch (err) {
       console.error('SSR render error, downgrade to CSR...\n', err)

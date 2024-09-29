@@ -1,19 +1,19 @@
 import React, { StrictMode } from 'react'
 import { PassThrough } from 'stream'
 import App from './app'
+import type { AssetMap } from './utils'
 
-let responseStatusCode = 200
-
-export async function render(scripts: string[] = []) {
+export async function render(assetMap = {} as AssetMap) {
   const body = new PassThrough()
   const ReactDOMServer = await import('react-dom/server')
   const promise = new Promise<void>((resolve, reject) => {
     const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
       <StrictMode>
-        <App />
+        <App assetMap={assetMap} />
       </StrictMode>,
       {
-        bootstrapScripts: scripts,
+        bootstrapScripts: assetMap.chunks['/'],
+        bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
         onAllReady() {
           resolve()
         },
@@ -28,6 +28,10 @@ export async function render(scripts: string[] = []) {
         }
       }
     )
+    setTimeout(() => {
+      abort()
+      reject()
+    }, 10_000)
   })
   return { stream: body, promise }
 }

@@ -2,13 +2,19 @@ import { writeFile } from 'node:fs/promises'
 
 /**
  */
-const getStats = async stats => {
+const getAssetMap = async stats => {
   const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles()
   const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
   const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css'))
-  return [jsChunks, cssEntry]
+  const data = {
+    chunks: {
+      '/': jsChunks
+    },
+    css: cssEntry
+  }
+  return data
 }
 
 /**
@@ -25,16 +31,10 @@ export const pluginEmitStats = (options = {}) => {
       api.onAfterBuild(async result => {
         const stats = result.stats['stats']
         const webStats = stats.find(stat => stat.compilation.name === 'web')
-        const [jsChunks, cssEntry] = await getStats(webStats)
-        const data = {
-          chunks: {
-            '/': jsChunks
-          },
-          css: cssEntry
-        }
+        const assetMap = await getAssetMap(webStats)
         await writeFile(
           './build/build-manifest.json',
-          JSON.stringify(data, null, 2),
+          JSON.stringify(assetMap, null, 2),
           'utf-8'
         )
       })

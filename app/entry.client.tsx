@@ -6,7 +6,7 @@ startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <App />
+      <App assetMap={window.assetMap} />
     </StrictMode>
   )
 })
