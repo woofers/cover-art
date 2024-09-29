@@ -24,8 +24,18 @@ const readManifest = async () => {
 
 async function preview() {
   const app = new h.Hono()
-  const assetMap = await readManifest()
-  app.use('/*', honoStatic.serveStatic({ root: './build', index: './not-found' }))
+  let assetMap
+  try {
+    assetMap = await readManifest()
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
+    return
+  }
+  app.use(
+    '/*',
+    honoStatic.serveStatic({ root: './build', index: './not-found' })
+  )
   app.get('*', async (c, next) => {
     try {
       const res = await serverRender(c, assetMap)

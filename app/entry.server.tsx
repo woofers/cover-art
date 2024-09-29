@@ -4,11 +4,8 @@ import { isBot, type AssetMap } from './utils'
 
 const headers = { 'content-type': 'text/html' }
 
-export async function render(
-  assetMap = {} as AssetMap,
-  ua: string
-) {
-  const {renderToReadableStream} = await import(
+export async function render(assetMap = {} as AssetMap, ua: string) {
+  const { renderToReadableStream } = await import(
     'react-dom/server.edge' as 'react-dom/server'
   )
   const isCrawler = isBot(ua)
@@ -23,7 +20,7 @@ export async function render(
         bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
         onError(error: unknown) {
           didError = true
-          console.error(error ?? "Request was aborted")
+          console.error(error ?? 'Request was aborted')
         }
       }
     )

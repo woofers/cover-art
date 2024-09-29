@@ -1,21 +1,7 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
 import Fastify from 'fastify'
 import expressFastify from '@fastify/express'
-
-const getAssetMap = async stats => {
-  const allChunks = Array.from(stats.compilation.namedChunkGroups.entries())
-  const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
-  const entryChunks = indexChunk.getFiles()
-  const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
-  const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css'))
-  const data = {
-    chunks: {
-      '/': jsChunks
-    },
-    css: cssEntry
-  }
-  return data
-}
+import { getAssetMap } from './plugin-emit-stats.mjs'
 
 const serverRender = serverAPI => async (request, reply) => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
@@ -46,7 +32,6 @@ async function startDevServer() {
     }
   })
   app.use((req, res, next) => {
-    console.log(req.path)
     if (req.path === '/') {
       return next()
     }

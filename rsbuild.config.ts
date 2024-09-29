@@ -1,5 +1,5 @@
 import { pluginReact } from '@rsbuild/plugin-react'
-import { pluginEmitStats } from './plugin-emit-stats'
+import { pluginEmitStats } from './plugin-emit-stats.mjs'
 
 const distPath = { root: 'build' }
 
