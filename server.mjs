@@ -1,6 +1,7 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
 import Fastify from 'fastify'
 import expressFastify from '@fastify/express'
+import { createStandardRequest } from 'fastify-standard-request-reply'
 import { getAssetMap } from './plugin-emit-stats.mjs'
 
 /**
@@ -14,7 +15,9 @@ const serverRender = serverAPI => async (request, reply) => {
   const ua = request.headers['user-agent']
   const stats = await serverAPI.environments.web.getStats()
   const assetMap = await getAssetMap(stats)
-  const response = await indexModule.render(assetMap, ua)
+  console.log(assetMap)
+  const standardRequsest = createStandardRequest(request, reply)
+  const response = await indexModule.render(assetMap, ua, standardRequsest)
   return reply.send(response)
 }
 
@@ -38,7 +41,7 @@ async function startDevServer() {
     }
   })
   app.use((req, res, next) => {
-    if (req.path === '/') {
+    if (req.path === '/' || req.path === '/about') {
       return next()
     }
     return rsbuildServer.middlewares(req, res, next)

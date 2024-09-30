@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@react-three/drei':
-        specifier: ^9.111.3
-        version: 9.111.3(@react-three/fiber@8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1))(@types/react@18.3.4)(@types/three@0.167.2)(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)
+        specifier: ^9.114.0
+        version: 9.114.0(@react-three/fiber@8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0))(@types/react@18.3.4)(@types/three@0.167.2)(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)
       '@react-three/fiber':
-        specifier: ^8.17.5
-        version: 8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)
+        specifier: ^8.17.8
+        version: 8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)
       '@remix-run/node':
         specifier: ^2.11.2
         version: 2.11.2(typescript@5.5.4)
@@ -26,12 +26,21 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
+      fastify-standard-request-reply:
+        specifier: ^0.1.3
+        version: 0.1.3
       react:
         specifier: 19.0.0-rc-3edc000d-20240926
         version: 19.0.0-rc-3edc000d-20240926
       react-dom:
         specifier: 19.0.0-rc-3edc000d-20240926
         version: 19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926)
+      react-router:
+        specifier: ^6.26.2
+        version: 6.26.2(react@19.0.0-rc-3edc000d-20240926)
+      react-router-dom:
+        specifier: ^6.26.2
+        version: 6.26.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)
       suspend-react:
         specifier: ^0.1.3
         version: 0.1.3(react@19.0.0-rc-3edc000d-20240926)
@@ -39,11 +48,11 @@ importers:
         specifier: ^2.5.2
         version: 2.5.2
       three:
-        specifier: ^0.167.1
-        version: 0.167.1
+        specifier: ^0.169.0
+        version: 0.169.0
       three-stdlib:
-        specifier: ^2.32.2
-        version: 2.32.2(three@0.167.1)
+        specifier: ^2.33.0
+        version: 2.33.0(three@0.169.0)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -56,7 +65,7 @@ importers:
         version: 1.13.1(hono@4.6.3)
       '@remix-run/dev':
         specifier: ^2.11.2
-        version: 2.11.2(@remix-run/react@2.11.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(typescript@5.5.4))(@types/node@22.5.0)(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0))(wrangler@3.78.12)
+        version: 2.11.2(@remix-run/react@2.11.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(typescript@5.5.4))(@types/node@22.7.4)(typescript@5.5.4)(vite@5.4.2(@types/node@22.7.4))(wrangler@3.78.12)
       '@rsbuild/core':
         specifier: ^1.0.7
         version: 1.0.7
@@ -72,6 +81,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.20(postcss@8.4.41)
+      express:
+        specifier: ^4.21.0
+        version: 4.21.0
       fastify:
         specifier: ^5.0.0
         version: 5.0.0
@@ -95,10 +107,10 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.1.0
-        version: 5.4.2(@types/node@22.5.0)
+        version: 5.4.2(@types/node@22.7.4)
       vite-tsconfig-paths:
         specifier: ^4.2.1
-        version: 4.3.2(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0))
+        version: 4.3.2(typescript@5.5.4)(vite@5.4.2(@types/node@22.7.4))
       wrangler:
         specifier: ^3.78.12
         version: 3.78.12
@@ -240,8 +252,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.25.4':
-    resolution: {integrity: sha512-DSgLeL/FNcpXuzav5wfYvHCGvynXkJbn3Zvc3823AEe9nPwW9IK4UoCSS5yGymmQzN0pCPvivtgS6/8U2kkm1w==}
+  '@babel/runtime@7.25.6':
+    resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.25.0':
@@ -837,8 +849,8 @@ packages:
   '@module-federation/webpack-bundler-runtime@0.5.1':
     resolution: {integrity: sha512-mMhRFH0k2VjwHt3Jol9JkUsmI/4XlrAoBG3E0o7HoyoPYv1UFOWyqAflfANcUPgbYpvqmyLzDcO+3IT36LXnrA==}
 
-  '@monogrid/gainmap-js@3.0.5':
-    resolution: {integrity: sha512-53sCTG4FaJBaAq/tcufARtVYDMDGqyBT9i7F453pWGhZ5LqubDHDWtYoHo9VhQqMcHTEexdJqSsR58y+9HVmQA==}
+  '@monogrid/gainmap-js@3.0.6':
+    resolution: {integrity: sha512-ireqJg7cw0tUn/JePDG8rAL7RyXgUKSDbjYdiygkrnye1WuKGLAWDBwF/ICwCwJ9iZBAF5caU8gSu+c34HLGdQ==}
     peerDependencies:
       three: '>= 0.159.0'
 
@@ -902,8 +914,8 @@ packages:
   '@react-spring/types@9.6.1':
     resolution: {integrity: sha512-POu8Mk0hIU3lRXB3bGIGe4VHIwwDsQyoD1F394OK7STTiX9w4dG3cTLljjYswkQN+hDSHRrj4O36kuVa7KPU8Q==}
 
-  '@react-three/drei@9.111.3':
-    resolution: {integrity: sha512-pc29/2bjQ5Hmwa25VEyM0BbyM3riQN+zsTO041iY5dDEJ98mCjHhnEnIE8N2/c/THAKmeKSGIiVvz8eMPMejlg==}
+  '@react-three/drei@9.114.0':
+    resolution: {integrity: sha512-+3EjUS47DEInY3LoTabA0t2AC62hgJvhZmQggZC1iTTZNrnyGQ9EQVYKP3e4kYyq2cnRAYptRnonSRF3RZkStA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
       react: '>=18.0'
@@ -913,8 +925,8 @@ packages:
       react-dom:
         optional: true
 
-  '@react-three/fiber@8.17.5':
-    resolution: {integrity: sha512-7uqtTWQrNIKW6wbgF0CQiDuo7uHoRd96lGBKsdRa+j/s268kqO4MBsxynLUpg6F/+mir5SEt9zJ3Up+lOjz/dg==}
+  '@react-three/fiber@8.17.8':
+    resolution: {integrity: sha512-L2r8n4Ebg7YMTMaPHx1soxplgfia7SpAJUA1bS4C1ApRG9KKAjK8Kjhx3ODX3f6fyYfQZju2JyE8Q7OJHv1DNA==}
     peerDependencies:
       expo: '>=43.0'
       expo-asset: '>=8.4'
@@ -980,6 +992,10 @@ packages:
 
   '@remix-run/router@1.19.1':
     resolution: {integrity: sha512-S45oynt/WH19bHbIXjtli6QmwNYvaz+vtnubvNpNDvUOoA/OWh6j1OikIP3G+v5GHdxyC6EXoChG3HgYGEUfcg==}
+    engines: {node: '>=14.0.0'}
+
+  '@remix-run/router@1.19.2':
+    resolution: {integrity: sha512-baiMx18+IMuD1yyvOGaHM9QrVUPGGG0jC+z+IPHnRJWUAUvaKuWKyE8gjDj2rzv3sz9zOGoRSPgeBVHRhZnBlA==}
     engines: {node: '>=14.0.0'}
 
   '@remix-run/server-runtime@2.11.2':
@@ -1215,6 +1231,9 @@ packages:
   '@types/node@22.5.0':
     resolution: {integrity: sha512-DkFrJOe+rfdHTqqMg0bSNlGlQ85hSoh2TPzZyhHsXnMtligRWpxUySiyw8FY14ITt24HVCiQPWxS3KO/QlGmWg==}
 
+  '@types/node@22.7.4':
+    resolution: {integrity: sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg==}
+
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
 
@@ -1247,6 +1266,9 @@ packages:
 
   '@types/webxr@0.5.19':
     resolution: {integrity: sha512-4hxA+NwohSgImdTSlPXEqDqqFktNgmTXQ05ff1uWam05tNGroCMp4G+4XVl6qWm1p7GQ/9oD41kAYsSssF6Mzw==}
+
+  '@types/webxr@0.5.20':
+    resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
 
   '@use-gesture/core@10.3.1':
     resolution: {integrity: sha512-WcINiDt8WjqBdUXye25anHiNxPc0VOrlT8F6LLkU6cycrOGUDyY/yyFmsg3k8i5OLvv25llc0QC45GhR/C8llw==}
@@ -1683,8 +1705,8 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
-  detect-gpu@5.0.45:
-    resolution: {integrity: sha512-59oJS71ODAVPGMjBfyHPPOnM9efOhJpOliQZ8I1UG4p440PjYCVYWgAgY+BiO3JPe/BXbRzPAn+XbVqIESXkDQ==}
+  detect-gpu@5.0.50:
+    resolution: {integrity: sha512-Bzuv0ZTC9AqIVwoWqtBJW91rNR9vT5F5DeIEb6x82WZC55848i9FFyRR+kswCuW3IfCtMNyiIxRuL2EWlF4Ihw==}
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
@@ -1875,6 +1897,10 @@ packages:
 
   fastify-plugin@5.0.1:
     resolution: {integrity: sha512-HCxs+YnRaWzCl+cWRYFnHmeRFyR5GVnJTAaCJQiYzQSDwK9MgJdyAsuL3nh0EWRCYMgQ5MeziymvmAhUHYHDUQ==}
+
+  fastify-standard-request-reply@0.1.3:
+    resolution: {integrity: sha512-UsMFDBmJ4afwuLCmFQixVArGsh91ndosXb4X0Z7HHCKI7veLiSHD5QaXCUZ/dUHj0fpOxOFHirTEHXnslPGtzw==}
+    engines: {node: '>=18.0.0'}
 
   fastify@5.0.0:
     resolution: {integrity: sha512-Qe4dU+zGOzg7vXjw4EvcuyIbNnMwTmcuOhlOrOJsgwzvjEZmsM/IeHulgJk+r46STjdJS/ZJbxO8N70ODXDMEQ==}
@@ -3040,8 +3066,21 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
+  react-router-dom@6.26.2:
+    resolution: {integrity: sha512-z7YkaEW0Dy35T3/QKPYB1LjMK2R1fxnHO8kWpUMTBdfVzZrWOiY9a7CtN8HqdWtDUWd5FY6Dl8HFsqVwH4uOtQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
   react-router@6.26.1:
     resolution: {integrity: sha512-kIwJveZNwp7teQRI5QmwWo39A5bXRyqpH0COKKmPnyD2vBvDwgFXSqDUYtt1h+FEyfnE8eXr7oe0MxRzVwCcvQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+
+  react-router@6.26.2:
+    resolution: {integrity: sha512-tvN1iuT03kHgOFnLPfLJ8V95eijteveqdOSk+srqfePtQvqCExB8eHOYnlilbOcyJyKnYkr1vJvf7YqotAJu1A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: '>=16.8'
@@ -3392,18 +3431,19 @@ packages:
   thread-stream@3.1.0:
     resolution: {integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==}
 
-  three-mesh-bvh@0.7.6:
-    resolution: {integrity: sha512-rCjsnxEqR9r1/C/lCqzGLS67NDty/S/eT6rAJfDvsanrIctTWdNoR4ZOGWewCB13h1QkVo2BpmC0wakj1+0m8A==}
+  three-mesh-bvh@0.7.8:
+    resolution: {integrity: sha512-BGEZTOIC14U0XIRw3tO4jY7IjP7n7v24nv9JXS1CyeVRWOCkcOMhRnmENUjuV39gktAw4Ofhr0OvIAiTspQrrw==}
+    deprecated: Deprecated due to three.js version incompatibility. Please use v0.8.0, instead.
     peerDependencies:
       three: '>= 0.151.0'
 
-  three-stdlib@2.32.2:
-    resolution: {integrity: sha512-ZN25Na/Xg7APhGKwJ1zhGdhZDsDGGnnm1k5Z+9LLlnfsFye4jigvbN3eA/Ta8hQmBNmEHXoozpmpKK1x8dCePQ==}
+  three-stdlib@2.33.0:
+    resolution: {integrity: sha512-V/uycBuqQOP/3Z+FBtpMdj2Ds5PyfJ3VDfMzktEmG4niOIzv7q1y5uMSbMcng0+057m1l0N147FQxsodQo9zBg==}
     peerDependencies:
       three: '>=0.128.0'
 
-  three@0.167.1:
-    resolution: {integrity: sha512-gYTLJA/UQip6J/tJvl91YYqlZF47+D/kxiWrbTon35ZHlXEN0VOo+Qke2walF1/x92v55H6enomymg4Dak52kw==}
+  three@0.169.0:
+    resolution: {integrity: sha512-Ed906MA3dR4TS5riErd4QBsRGPcx+HBDX2O5yYE5GqJeFQTPU+M56Va/f/Oph9X7uZo3W3o4l2ZhBZ6f6qUv0w==}
 
   through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
@@ -3964,7 +4004,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.25.4':
+  '@babel/runtime@7.25.6':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -4370,10 +4410,10 @@ snapshots:
       '@module-federation/runtime': 0.5.1
       '@module-federation/sdk': 0.5.1
 
-  '@monogrid/gainmap-js@3.0.5(three@0.167.1)':
+  '@monogrid/gainmap-js@3.0.6(three@0.169.0)':
     dependencies:
       promise-worker-transferable: 1.0.4
-      three: 0.167.1
+      three: 0.169.0
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4445,42 +4485,42 @@ snapshots:
       '@react-spring/types': 9.6.1
       react: 19.0.0-rc-3edc000d-20240926
 
-  '@react-spring/three@9.6.1(@react-three/fiber@8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)':
+  '@react-spring/three@9.6.1(@react-three/fiber@8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)':
     dependencies:
       '@react-spring/animated': 9.6.1(react@19.0.0-rc-3edc000d-20240926)
       '@react-spring/core': 9.6.1(react@19.0.0-rc-3edc000d-20240926)
       '@react-spring/shared': 9.6.1(react@19.0.0-rc-3edc000d-20240926)
       '@react-spring/types': 9.6.1
-      '@react-three/fiber': 8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)
+      '@react-three/fiber': 8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)
       react: 19.0.0-rc-3edc000d-20240926
-      three: 0.167.1
+      three: 0.169.0
 
   '@react-spring/types@9.6.1': {}
 
-  '@react-three/drei@9.111.3(@react-three/fiber@8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1))(@types/react@18.3.4)(@types/three@0.167.2)(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)':
+  '@react-three/drei@9.114.0(@react-three/fiber@8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0))(@types/react@18.3.4)(@types/three@0.167.2)(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)':
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
       '@mediapipe/tasks-vision': 0.10.8
-      '@monogrid/gainmap-js': 3.0.5(three@0.167.1)
-      '@react-spring/three': 9.6.1(@react-three/fiber@8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)
-      '@react-three/fiber': 8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)
+      '@monogrid/gainmap-js': 3.0.6(three@0.169.0)
+      '@react-spring/three': 9.6.1(@react-three/fiber@8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)
+      '@react-three/fiber': 8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)
       '@use-gesture/react': 10.3.1(react@19.0.0-rc-3edc000d-20240926)
-      camera-controls: 2.9.0(three@0.167.1)
+      camera-controls: 2.9.0(three@0.169.0)
       cross-env: 7.0.3
-      detect-gpu: 5.0.45
+      detect-gpu: 5.0.50
       glsl-noise: 0.0.0
       hls.js: 1.3.5
-      maath: 0.10.8(@types/three@0.167.2)(three@0.167.1)
-      meshline: 3.3.1(three@0.167.1)
+      maath: 0.10.8(@types/three@0.167.2)(three@0.169.0)
+      meshline: 3.3.1(three@0.169.0)
       react: 19.0.0-rc-3edc000d-20240926
       react-composer: 5.0.3(react@19.0.0-rc-3edc000d-20240926)
       stats-gl: 2.2.8
       stats.js: 0.17.0
       suspend-react: 0.1.3(react@19.0.0-rc-3edc000d-20240926)
-      three: 0.167.1
-      three-mesh-bvh: 0.7.6(three@0.167.1)
-      three-stdlib: 2.32.2(three@0.167.1)
-      troika-three-text: 0.49.1(three@0.167.1)
+      three: 0.169.0
+      three-mesh-bvh: 0.7.8(three@0.169.0)
+      three-stdlib: 2.33.0(three@0.169.0)
+      troika-three-text: 0.49.1(three@0.169.0)
       tunnel-rat: 0.1.2(@types/react@18.3.4)(react@19.0.0-rc-3edc000d-20240926)
       utility-types: 3.11.0
       uuid: 9.0.1
@@ -4492,12 +4532,12 @@ snapshots:
       - '@types/three'
       - immer
 
-  '@react-three/fiber@8.17.5(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.167.1)':
+  '@react-three/fiber@8.17.8(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(three@0.169.0)':
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
       '@types/debounce': 1.2.4
       '@types/react-reconciler': 0.26.7
-      '@types/webxr': 0.5.19
+      '@types/webxr': 0.5.20
       base64-js: 1.5.1
       buffer: 6.0.3
       debounce: 1.2.1
@@ -4506,12 +4546,12 @@ snapshots:
       react-reconciler: 0.27.0(react@19.0.0-rc-3edc000d-20240926)
       scheduler: 0.21.0
       suspend-react: 0.1.3(react@19.0.0-rc-3edc000d-20240926)
-      three: 0.167.1
+      three: 0.169.0
       zustand: 3.7.2(react@19.0.0-rc-3edc000d-20240926)
     optionalDependencies:
       react-dom: 19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926)
 
-  '@remix-run/dev@2.11.2(@remix-run/react@2.11.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(typescript@5.5.4))(@types/node@22.5.0)(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0))(wrangler@3.78.12)':
+  '@remix-run/dev@2.11.2(@remix-run/react@2.11.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926)(typescript@5.5.4))(@types/node@22.7.4)(typescript@5.5.4)(vite@5.4.2(@types/node@22.7.4))(wrangler@3.78.12)':
     dependencies:
       '@babel/core': 7.25.2
       '@babel/generator': 7.25.5
@@ -4528,7 +4568,7 @@ snapshots:
       '@remix-run/router': 1.19.1
       '@remix-run/server-runtime': 2.11.2(typescript@5.5.4)
       '@types/mdx': 2.0.13
-      '@vanilla-extract/integration': 6.5.0(@types/node@22.5.0)
+      '@vanilla-extract/integration': 6.5.0(@types/node@22.7.4)
       arg: 5.0.2
       cacache: 17.1.4
       chalk: 4.1.2
@@ -4569,7 +4609,7 @@ snapshots:
       ws: 7.5.10
     optionalDependencies:
       typescript: 5.5.4
-      vite: 5.4.2(@types/node@22.5.0)
+      vite: 5.4.2(@types/node@22.7.4)
       wrangler: 3.78.12
     transitivePeerDependencies:
       - '@types/node'
@@ -4612,6 +4652,8 @@ snapshots:
       typescript: 5.5.4
 
   '@remix-run/router@1.19.1': {}
+
+  '@remix-run/router@1.19.2': {}
 
   '@remix-run/server-runtime@2.11.2(typescript@5.5.4)':
     dependencies:
@@ -4822,6 +4864,11 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
+  '@types/node@22.7.4':
+    dependencies:
+      undici-types: 6.19.8
+    optional: true
+
   '@types/offscreencanvas@2019.7.3': {}
 
   '@types/prop-types@15.7.12': {}
@@ -4849,7 +4896,7 @@ snapshots:
     dependencies:
       '@tweenjs/tween.js': 23.1.3
       '@types/stats.js': 0.17.3
-      '@types/webxr': 0.5.19
+      '@types/webxr': 0.5.20
       fflate: 0.8.2
       meshoptimizer: 0.18.1
 
@@ -4864,6 +4911,8 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/webxr@0.5.19': {}
+
+  '@types/webxr@0.5.20': {}
 
   '@use-gesture/core@10.3.1': {}
 
@@ -4895,21 +4944,21 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@vanilla-extract/integration@6.5.0(@types/node@22.5.0)':
+  '@vanilla-extract/integration@6.5.0(@types/node@22.7.4)':
     dependencies:
       '@babel/core': 7.25.2
       '@babel/plugin-syntax-typescript': 7.25.4(@babel/core@7.25.2)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.6
       '@vanilla-extract/css': 1.15.5
-      esbuild: 0.17.19
+      esbuild: 0.17.6
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
       lodash: 4.17.21
       mlly: 1.7.1
       outdent: 0.8.0
-      vite: 5.4.2(@types/node@22.5.0)
-      vite-node: 1.6.0(@types/node@22.5.0)
+      vite: 5.4.2(@types/node@22.7.4)
+      vite-node: 1.6.0(@types/node@22.7.4)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -5130,9 +5179,9 @@ snapshots:
 
   camelcase-css@2.0.1: {}
 
-  camera-controls@2.9.0(three@0.167.1):
+  camera-controls@2.9.0(three@0.169.0):
     dependencies:
-      three: 0.167.1
+      three: 0.169.0
 
   caniuse-lite@1.0.30001653: {}
 
@@ -5300,7 +5349,7 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  detect-gpu@5.0.45:
+  detect-gpu@5.0.50:
     dependencies:
       webgl-constants: 1.1.1
 
@@ -5577,6 +5626,8 @@ snapshots:
   fast-uri@3.0.2: {}
 
   fastify-plugin@5.0.1: {}
+
+  fastify-standard-request-reply@0.1.3: {}
 
   fastify@5.0.0:
     dependencies:
@@ -6065,10 +6116,10 @@ snapshots:
 
   lru-cache@7.18.3: {}
 
-  maath@0.10.8(@types/three@0.167.2)(three@0.167.1):
+  maath@0.10.8(@types/three@0.167.2)(three@0.169.0):
     dependencies:
       '@types/three': 0.167.2
-      three: 0.167.1
+      three: 0.169.0
 
   magic-string@0.25.9:
     dependencies:
@@ -6189,7 +6240,7 @@ snapshots:
 
   media-query-parser@2.0.2:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   media-typer@0.3.0: {}
 
@@ -6199,9 +6250,9 @@ snapshots:
 
   merge2@1.4.1: {}
 
-  meshline@3.3.1(three@0.167.1):
+  meshline@3.3.1(three@0.169.0):
     dependencies:
-      three: 0.167.1
+      three: 0.169.0
 
   meshoptimizer@0.18.1: {}
 
@@ -6908,9 +6959,21 @@ snapshots:
       react-dom: 19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926)
       react-router: 6.26.1(react@19.0.0-rc-3edc000d-20240926)
 
+  react-router-dom@6.26.2(react-dom@19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926))(react@19.0.0-rc-3edc000d-20240926):
+    dependencies:
+      '@remix-run/router': 1.19.2
+      react: 19.0.0-rc-3edc000d-20240926
+      react-dom: 19.0.0-rc-3edc000d-20240926(react@19.0.0-rc-3edc000d-20240926)
+      react-router: 6.26.2(react@19.0.0-rc-3edc000d-20240926)
+
   react-router@6.26.1(react@19.0.0-rc-3edc000d-20240926):
     dependencies:
       '@remix-run/router': 1.19.1
+      react: 19.0.0-rc-3edc000d-20240926
+
+  react-router@6.26.2(react@19.0.0-rc-3edc000d-20240926):
+    dependencies:
+      '@remix-run/router': 1.19.2
       react: 19.0.0-rc-3edc000d-20240926
 
   react@19.0.0-rc-3edc000d-20240926: {}
@@ -7343,21 +7406,21 @@ snapshots:
     dependencies:
       real-require: 0.2.0
 
-  three-mesh-bvh@0.7.6(three@0.167.1):
+  three-mesh-bvh@0.7.8(three@0.169.0):
     dependencies:
-      three: 0.167.1
+      three: 0.169.0
 
-  three-stdlib@2.32.2(three@0.167.1):
+  three-stdlib@2.33.0(three@0.169.0):
     dependencies:
       '@types/draco3d': 1.4.10
       '@types/offscreencanvas': 2019.7.3
-      '@types/webxr': 0.5.19
+      '@types/webxr': 0.5.20
       draco3d: 1.5.7
       fflate: 0.6.10
       potpack: 1.0.2
-      three: 0.167.1
+      three: 0.169.0
 
-  three@0.167.1: {}
+  three@0.169.0: {}
 
   through2@2.0.5:
     dependencies:
@@ -7382,17 +7445,17 @@ snapshots:
     dependencies:
       escape-string-regexp: 1.0.5
 
-  troika-three-text@0.49.1(three@0.167.1):
+  troika-three-text@0.49.1(three@0.169.0):
     dependencies:
       bidi-js: 1.0.3
-      three: 0.167.1
-      troika-three-utils: 0.49.0(three@0.167.1)
+      three: 0.169.0
+      troika-three-utils: 0.49.0(three@0.169.0)
       troika-worker-utils: 0.49.0
       webgl-sdf-generator: 1.1.1
 
-  troika-three-utils@0.49.0(three@0.167.1):
+  troika-three-utils@0.49.0(three@0.169.0):
     dependencies:
-      three: 0.167.1
+      three: 0.169.0
 
   troika-worker-utils@0.49.0: {}
 
@@ -7556,13 +7619,13 @@ snapshots:
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
 
-  vite-node@1.6.0(@types/node@22.5.0):
+  vite-node@1.6.0(@types/node@22.7.4):
     dependencies:
       cac: 6.7.14
       debug: 4.3.6
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.4.2(@types/node@22.5.0)
+      vite: 5.4.2(@types/node@22.7.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -7574,24 +7637,24 @@ snapshots:
       - supports-color
       - terser
 
-  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0)):
+  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.4.2(@types/node@22.7.4)):
     dependencies:
       debug: 4.3.6
       globrex: 0.1.2
       tsconfck: 3.1.1(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.4.2(@types/node@22.5.0)
+      vite: 5.4.2(@types/node@22.7.4)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@5.4.2(@types/node@22.5.0):
+  vite@5.4.2(@types/node@22.7.4):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.21.0
     optionalDependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.7.4
       fsevents: 2.3.3
 
   wcwidth@1.0.1:

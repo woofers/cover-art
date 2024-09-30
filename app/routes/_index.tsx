@@ -1,13 +1,7 @@
-import type { MetaFunction } from '@remix-run/node'
-import { ThreeCanvas } from 'components/three-canvas'
+import React from "react"
 
-export const meta: MetaFunction = () => [
-  { title: 'Cover Art' },
-  { name: 'description', content: 'Testing cover art' }
-]
-
-const Index = () => {
-  return <ThreeCanvas />
+const FallbackIndex = () => {
+  return <div><h1>Fallback Index and Root</h1></div>
 }
 
-export default Index
+export default FallbackIndex

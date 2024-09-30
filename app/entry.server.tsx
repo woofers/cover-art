@@ -1,10 +1,29 @@
 import React, { StrictMode } from 'react'
 import App from './app'
 import { isBot, type AssetMap } from './utils'
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticRouterProvider
+} from 'react-router-dom/server'
+import { routes } from './routes'
 
 const headers = { 'content-type': 'text/html' }
 
-export async function render(assetMap = {} as AssetMap, ua: string) {
+const handler = createStaticHandler(routes)
+const getRouterAndContext = async (request: Request) => {
+  const routeContext = await handler.query(request)
+  const context = routeContext as Exclude<typeof routeContext, Response>
+  const router = createStaticRouter(handler.dataRoutes, context)
+  return { router, context }
+}
+
+export async function render(
+  assetMap = {} as AssetMap,
+  ua: string,
+  request: Request
+) {
+  const { router, context } = await getRouterAndContext(request)
   const { renderToReadableStream } = await import(
     'react-dom/server.edge' as 'react-dom/server'
   )
@@ -13,7 +32,13 @@ export async function render(assetMap = {} as AssetMap, ua: string) {
     let didError = false
     const stream = await renderToReadableStream(
       <StrictMode>
-        <App assetMap={assetMap} />
+        <App assetMap={assetMap}>
+          <StaticRouterProvider
+            router={router}
+            context={context}
+            hydrate={false}
+          />
+        </App>
       </StrictMode>,
       {
         bootstrapScripts: assetMap.chunks['/'],

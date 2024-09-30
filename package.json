@@ -12,18 +12,21 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@react-three/drei": "^9.111.3",
-    "@react-three/fiber": "^8.17.5",
+    "@react-three/drei": "^9.114.0",
+    "@react-three/fiber": "^8.17.8",
     "@remix-run/node": "^2.11.2",
     "@remix-run/react": "^2.11.2",
     "@types/three": "^0.167.2",
     "class-variance-authority": "^0.7.0",
+    "fastify-standard-request-reply": "^0.1.3",
     "react": "19.0.0-rc-3edc000d-20240926",
     "react-dom": "19.0.0-rc-3edc000d-20240926",
+    "react-router": "^6.26.2",
+    "react-router-dom": "^6.26.2",
     "suspend-react": "^0.1.3",
     "tailwind-merge": "^2.5.2",
-    "three": "^0.167.1",
-    "three-stdlib": "^2.32.2"
+    "three": "^0.169.0",
+    "three-stdlib": "^2.33.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

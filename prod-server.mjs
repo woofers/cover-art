@@ -11,7 +11,7 @@ const serverRender = async (c, assetMap) => {
   const remotesPath = path.join(process.cwd(), assetMap.server)
   const importedApp = requireFile(remotesPath)
   const ua = c.req.header('user-agent')
-  const response = await importedApp.render(assetMap, ua)
+  const response = await importedApp.render(assetMap, ua, c.req.raw)
   return response
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
-import Index from './routes/_index'
 import './tailwind.css'
-import Delay from './delay'
 import type { AssetMap } from './utils'
 
-const App: React.FC<{ assetMap: AssetMap }> = ({ assetMap }) => (
+const App: React.FC<{ assetMap: AssetMap; children: React.ReactNode }> = ({
+  assetMap,
+  children
+}) => (
   <html lang="en" suppressHydrationWarning>
     <head>
       <meta charSet="utf-8" />
@@ -15,16 +16,7 @@ const App: React.FC<{ assetMap: AssetMap }> = ({ assetMap }) => (
     <body>
       <div id="root">
         <div className="flex min-h-screen flex-col text-zinc-800 bg-red font-sans">
-          <React.Suspense fallback={<p>Loading 1</p>}>
-            <Delay delay={2000} />
-          </React.Suspense>
-
-          <React.Suspense fallback={<p>Loading 5</p>}>
-            <Delay delay={5000} />
-          </React.Suspense>
-          <React.Suspense fallback={<p>Loading 3</p>}>
-            <Delay delay={1000} />
-          </React.Suspense>
+          {children}
         </div>
       </div>
     </body>

@@ -76,7 +76,7 @@ const withModel = (game: string) => {
 const MarioParty4 = withModel('mp4.jpg')
 const SuperSmashBrosMelee = withModel('ssbm.jpg')
 
-export const ThreeCanvas: React.FC<{}> = () => (
+const ThreeCanvas: React.FC<{}> = () => (
   <div className="flex-grow max-h-[100vh] h-[100vh]">
     <Canvas>
       <Suspense fallback={null}>
@@ -96,3 +96,5 @@ export const ThreeCanvas: React.FC<{}> = () => (
     </Canvas>
   </div>
 )
+
+export default ThreeCanvas
