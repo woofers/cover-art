@@ -1,10 +1,20 @@
 import React, { StrictMode } from 'react'
 import App from './app'
 import { isBot, type AssetMap } from './utils'
+import { createRouter } from './router'
+import { createMemoryHistory, RouterProvider } from '@tanstack/react-router'
 
 const headers = { 'content-type': 'text/html' }
 
 export async function render(assetMap = {} as AssetMap, ua: string) {
+  const router = createRouter()
+  const memoryHistory = createMemoryHistory({
+    initialEntries: ["/"],
+  })
+  router.update({
+    history: memoryHistory,
+  })
+  await router.load()
   const { renderToReadableStream } = await import(
     'react-dom/server.edge' as 'react-dom/server'
   )
@@ -13,7 +23,9 @@ export async function render(assetMap = {} as AssetMap, ua: string) {
     let didError = false
     const stream = await renderToReadableStream(
       <StrictMode>
-        <App assetMap={assetMap} />
+        <App assetMap={assetMap}>
+          <RouterProvider router={router} />
+          </App>
       </StrictMode>,
       {
         bootstrapScripts: assetMap.chunks['/'],
