@@ -5,11 +5,15 @@ const About = React.lazy(() => import('./routes/about'))
 
 export const routes = [
   {
-    path: '/about',
-    Component: About
+    path: '*',
+    Component: () => 'Not found'
   },
   {
-    path: '*',
+    path: '/',
     Component: Index
+  },
+  {
+    path: '/about',
+    Component: About
   }
 ]

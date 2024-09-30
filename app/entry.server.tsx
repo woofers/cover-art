@@ -10,10 +10,12 @@ import { routes } from './routes'
 
 const headers = { 'content-type': 'text/html' }
 
-const handler = createStaticHandler(routes)
+export const handler = createStaticHandler(routes)
+
 const getRouterAndContext = async (request: Request) => {
   const routeContext = await handler.query(request)
   const context = routeContext as Exclude<typeof routeContext, Response>
+  context.matches
   const router = createStaticRouter(handler.dataRoutes, context)
   return { router, context }
 }

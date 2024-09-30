@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import App from './app'
 
-
 const router = createBrowserRouter(routes)
 
 startTransition(() => {
