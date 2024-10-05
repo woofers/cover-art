@@ -1,10 +1,11 @@
 import React from 'react'
+import { Layout } from '../layout'
 import Delay from 'app/delay'
 import { Link } from 'react-router-dom'
 
 const IndexPage = () => {
   return (
-    <div>
+    <Layout>
       <h1>Home</h1>
       <Link to="/about">Go to About</Link>
       <React.Suspense fallback={<p>Loading 5</p>}>
@@ -16,7 +17,7 @@ const IndexPage = () => {
       <React.Suspense fallback={<p>Loading 3</p>}>
         <Delay delay={1000} />
       </React.Suspense>
-    </div>
+    </Layout>
   )
 }
 

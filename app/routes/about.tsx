@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Layout } from '../layout'
 
 const AboutPage = () => {
   return (
-    <div>
+    <Layout>
       <h1>About</h1>
       <Link to="/">Go Home</Link>
-    </div>
+    </Layout>
   )
 }
 
