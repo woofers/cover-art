@@ -1,20 +1,22 @@
 import React from 'react'
+import type { RouteObject } from 'react-router'
 
-import ErrorPage from './routes/_error'
-import IndexPage from './routes/_index'
-import AboutPage from './routes/about'
+const reactRouterLazy =
+  <T extends React.ComponentType>(loader: () => Promise<{ default: T }>) =>
+  () =>
+    loader().then(ex => ({ Component: ex.default }))
 
 export const routes = [
   {
     path: '*',
-    Component: ErrorPage
+    Component: React.lazy(() => import('./routes/_error'))
   },
   {
     path: '/',
-    Component: IndexPage
+    Component: React.lazy(() => import('./routes/_index'))
   },
   {
     path: '/about',
-    Component: AboutPage
+    Component: React.lazy(() => import('./routes/about'))
   }
-]
+] satisfies RouteObject[]
