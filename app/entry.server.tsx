@@ -15,10 +15,11 @@ export const handler = createStaticHandler(routes)
 const getRouterAndContext = async (request: Request) => {
   const routeContext = await handler.query(request)
   const context = routeContext as Exclude<typeof routeContext, Response>
-  context.matches
   const router = createStaticRouter(handler.dataRoutes, context)
   return { router, context }
 }
+
+const ABORT_DELAY = 15_000
 
 export async function render(
   assetMap = {} as AssetMap,
@@ -26,11 +27,18 @@ export async function render(
   request: Request
 ) {
   const { router, context } = await getRouterAndContext(request)
+  if (context instanceof Response) {
+    throw context
+  }
   const { renderToReadableStream } = await import(
     'react-dom/server.edge' as 'react-dom/server'
   )
   const isCrawler = isBot(ua)
   try {
+    const controller = new AbortController()
+    setTimeout(() => {
+      controller.abort()
+    }, ABORT_DELAY)
     let didError = false
     const stream = await renderToReadableStream(
       <StrictMode>
@@ -38,13 +46,14 @@ export async function render(
           <StaticRouterProvider
             router={router}
             context={context}
-            hydrate={false}
+            hydrate={true}
           />
         </App>
       </StrictMode>,
       {
         bootstrapScripts: assetMap.chunks['/'],
         bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
+        signal: controller.signal,
         onError(error: unknown) {
           didError = true
           console.error(error ?? 'Request was aborted')

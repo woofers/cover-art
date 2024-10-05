@@ -20,7 +20,7 @@ export const getAssetMap = async stats => {
   const [_, indexChunk] = allChunks.find(([name]) => name === 'index')
   const entryChunks = indexChunk.getFiles().map(chunk => addSlash(chunk))
   const jsChunks = entryChunks.filter(chunk => chunk.endsWith('.js'))
-  const cssEntry = entryChunks.find(chunk => chunk.endsWith('.css')) || ''
+  const cssEntry = entryChunks.filter(chunk => chunk.endsWith('.css')) || []
   const data = {
     chunks: {
       '/': jsChunks

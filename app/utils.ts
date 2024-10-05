@@ -1,5 +1,5 @@
 export type AssetMap = {
-  css: string
+  css: string[]
   chunks: Record<string, string[]>
 }
 

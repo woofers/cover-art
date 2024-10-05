@@ -11,7 +11,10 @@ const App: React.FC<{ assetMap: AssetMap; children: React.ReactNode }> = ({
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="shortcut icon" href="/cover-art/favicon.ico" />
-      {assetMap.css && <link rel="stylesheet" href={assetMap.css}></link>}
+      {assetMap.css &&
+        assetMap.css.map(style => (
+          <link key={style} rel="stylesheet" href={style}></link>
+        ))}
     </head>
     <body>
       <div id="root">

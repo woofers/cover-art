@@ -1,16 +1,12 @@
-import React from 'react'
-import { suspend } from 'suspend-react'
+import React, { use } from 'react'
 
 const delayMessage = async (delay: number) => {
   await new Promise(r => setTimeout(r, delay))
-  console.log(delay)
-  const resp = await fetch('https://api.sampleapis.com/beers/ale')
-  const json = await resp.json()
-  return json[Math.floor(delay / 1000)] as { name: string; price: string }
+  return { name: delay } as unknown as { name: string; price: string }
 }
 
 const Delay: React.FC<{ delay: number }> = ({ delay = 1000 }) => {
-  const value = suspend(() => delayMessage(delay), [delay])
+  const value = use(delayMessage(delay))
   return (
     <div>
       {value.name} - {value.price}

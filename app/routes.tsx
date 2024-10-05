@@ -1,19 +1,20 @@
 import React from 'react'
 
-const Index = React.lazy(() => import('./routes/_index'))
-const About = React.lazy(() => import('./routes/about'))
+const ErrorPage = React.lazy(() => import('./routes/_error'))
+const IndexPage = React.lazy(() => import('./routes/_index'))
+const AboutPage = React.lazy(() => import('./routes/about'))
 
 export const routes = [
   {
     path: '*',
-    Component: () => 'Not found'
+    Component: ErrorPage
   },
   {
     path: '/',
-    Component: Index
+    Component: IndexPage
   },
   {
     path: '/about',
-    Component: About
+    Component: AboutPage
   }
 ]

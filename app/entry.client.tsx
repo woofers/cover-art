@@ -4,15 +4,16 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import App from './app'
 
-const router = createBrowserRouter(routes)
+void hydrate()
 
-startTransition(() => {
+async function hydrate() {
+  const router = createBrowserRouter(routes)
   hydrateRoot(
     document,
     <StrictMode>
       <App assetMap={window.assetMap}>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} fallbackElement={null} />
       </App>
     </StrictMode>
   )
-})
+}

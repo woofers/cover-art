@@ -1,13 +1,13 @@
 import React from 'react'
-import type { MetaFunction } from '@remix-run/node'
-import { useSsr } from 'app/use-ssr'
+import { Link } from 'react-router-dom'
 
-const About = () => {
+const AboutPage = () => {
   return (
     <div>
       <h1>About</h1>
+      <Link to="/">Go Home</Link>
     </div>
   )
 }
 
-export default About
+export default AboutPage
