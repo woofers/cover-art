@@ -32,7 +32,6 @@
     "@biomejs/biome": "^1.8.3",
     "@fastify/express": "^4.0.1",
     "@hono/node-server": "^1.13.1",
-    "@remix-run/dev": "^2.11.2",
     "@rsbuild/core": "^1.0.7",
     "@rsbuild/plugin-react": "^1.0.2",
     "@types/react": "^18.2.20",
@@ -45,10 +44,7 @@
     "postcss": "^8.4.38",
     "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.1.6",
-    "vite": "^5.1.0",
-    "vite-tsconfig-paths": "^4.2.1",
-    "wrangler": "^3.78.12"
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=20.17.0"

@@ -10,6 +10,14 @@ const addSlash = path => {
 }
 
 /**
+ * @param {string[]} chunks
+ * @return {string[]}
+ */
+const removeHotUpdate = (chunks) => {
+  return chunks.filter(next => !next.endsWith('.hot-update.js'))
+}
+
+/**
  * @param {import('@rsbuild/core').Rspack.Stats} stats
  */
 export const getAssetMap = async stats => {
@@ -23,7 +31,7 @@ export const getAssetMap = async stats => {
   const cssEntry = entryChunks.filter(chunk => chunk.endsWith('.css')) || []
   const data = {
     chunks: {
-      '/': jsChunks
+      '/': removeHotUpdate(jsChunks)
     },
     css: cssEntry
   }
