@@ -8,12 +8,14 @@ void hydrate()
 
 async function hydrate() {
   const router = createBrowserRouter(routes)
-  hydrateRoot(
-    document,
-    <StrictMode>
-      <App assetMap={window.assetMap}>
-        <RouterProvider router={router} fallbackElement={null} />
-      </App>
-    </StrictMode>
-  )
+  startTransition(() => {
+    hydrateRoot(
+      document,
+      <StrictMode>
+        <App assetMap={window.assetMap}>
+          <RouterProvider router={router} fallbackElement={null} />
+        </App>
+      </StrictMode>
+    )
+  })
 }

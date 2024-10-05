@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ErrorPage = React.lazy(() => import('./routes/_error'))
-const IndexPage = React.lazy(() => import('./routes/_index'))
-const AboutPage = React.lazy(() => import('./routes/about'))
+import ErrorPage from './routes/_error'
+import IndexPage from './routes/_index'
+import AboutPage from './routes/about'
 
 export const routes = [
   {

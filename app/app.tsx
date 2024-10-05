@@ -16,13 +16,7 @@ const App: React.FC<{ assetMap: AssetMap; children: React.ReactNode }> = ({
           <link key={style} rel="stylesheet" href={style}></link>
         ))}
     </head>
-    <body>
-      <div id="root">
-        <div className="flex min-h-screen flex-col text-zinc-800 bg-red font-sans">
-          {children}
-        </div>
-      </div>
-    </body>
+    <body>{children}</body>
   </html>
 )
 

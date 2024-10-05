@@ -7,7 +7,9 @@ const IndexPage = () => {
     <div>
       <h1>Home</h1>
       <Link to="/about">Go to About</Link>
-      <Delay delay={6000} />
+      <React.Suspense fallback={<p>Loading 5</p>}>
+        <Delay delay={6000} />
+      </React.Suspense>
       <React.Suspense fallback={<p>Loading 5</p>}>
         <Delay delay={5000} />
       </React.Suspense>
