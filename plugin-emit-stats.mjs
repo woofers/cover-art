@@ -39,10 +39,10 @@ export const getAssetMap = async stats => {
 }
 
 /**
- * @param {{}} options
+ * @param {{}} _options
  * @return {import('@rsbuild/core').RsbuildPlugin}
  */
-export const pluginEmitStats = (options = {}) => {
+export const pluginEmitStats = (_options = {}) => {
   return {
     name: 'rsbuild:emit-stats',
     /**
