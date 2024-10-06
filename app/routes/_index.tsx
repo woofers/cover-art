@@ -8,13 +8,13 @@ const IndexPage = () => {
     <Layout>
       <h1>Home</h1>
       <Link to="/about">Go to About</Link>
-      <React.Suspense fallback={<p>Loading 5</p>}>
-        <Delay delay={6000} />
+      <React.Suspense fallback={<p>Loading 2000ms</p>}>
+        <Delay delay={2000} />
       </React.Suspense>
-      <React.Suspense fallback={<p>Loading 5</p>}>
-        <Delay delay={5000} />
+      <React.Suspense fallback={<p>Loading 4000ms</p>}>
+        <Delay delay={4000} />
       </React.Suspense>
-      <React.Suspense fallback={<p>Loading 3</p>}>
+      <React.Suspense fallback={<p>Loading 1000ms</p>}>
         <Delay delay={1000} />
       </React.Suspense>
     </Layout>

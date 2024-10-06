@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from 'react'
 
-const empty = () => () => {}
+const empty = () => () => {
+  // pass
+}
 
 export const useSsr = () =>
   useSyncExternalStore(

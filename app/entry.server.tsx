@@ -67,6 +67,7 @@ export async function render(
       headers
     })
   } catch (error) {
+    console.error(error)
     return new Response('<h1>Something went wrong</h1>', {
       status: 500,
       headers

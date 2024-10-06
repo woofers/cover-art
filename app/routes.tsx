@@ -1,7 +1,7 @@
 import React from 'react'
 import type { RouteObject } from 'react-router'
 
-const reactRouterLazy =
+const _reactRouterLazy =
   <T extends React.ComponentType>(loader: () => Promise<{ default: T }>) =>
   () =>
     loader().then(ex => ({ Component: ex.default }))

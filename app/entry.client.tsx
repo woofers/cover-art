@@ -1,4 +1,4 @@
-import { StrictMode, startTransition } from 'react'
+import React, { StrictMode, startTransition } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -21,7 +21,7 @@ async function loadLazyRoutes() {
   if (lazyMatches && lazyMatches?.length > 0) {
     await Promise.all(
       lazyMatches.map(async m => {
-        let routeModule = await castToLazy(m.route).lazy()
+        const routeModule = await castToLazy(m.route).lazy()
         Object.assign(m.route, { ...routeModule, lazy: undefined })
       })
     )

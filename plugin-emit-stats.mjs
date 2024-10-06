@@ -13,7 +13,7 @@ const addSlash = path => {
  * @param {string[]} chunks
  * @return {string[]}
  */
-const removeHotUpdate = (chunks) => {
+const removeHotUpdate = chunks => {
   return chunks.filter(next => !next.endsWith('.hot-update.js'))
 }
 

@@ -5,15 +5,15 @@ import { createStandardRequest } from 'fastify-standard-request-reply'
 import { getAssetMap } from './plugin-emit-stats.mjs'
 
 function createFetchRequest(req, res) {
-  let origin = `${req.protocol}://${req.get('host')}`
-  let url = new URL(req.originalUrl || req.url, origin)
-  let controller = new AbortController()
+  const origin = `${req.protocol}://${req.get('host')}`
+  const url = new URL(req.originalUrl || req.url, origin)
+  const controller = new AbortController()
   res.on('close', () => controller.abort())
-  let headers = new Headers()
-  for (let [key, values] of Object.entries(req.headers)) {
+  const headers = new Headers()
+  for (const [key, values] of Object.entries(req.headers)) {
     if (values) {
       if (Array.isArray(values)) {
-        for (let value of values) {
+        for (const value of values) {
           headers.append(key, value)
         }
       } else {
@@ -21,7 +21,7 @@ function createFetchRequest(req, res) {
       }
     }
   }
-  let init = {
+  const init = {
     method: req.method,
     headers,
     signal: controller.signal
