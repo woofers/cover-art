@@ -1,37 +1,9 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
 import Fastify from 'fastify'
-import expressFastify from '@fastify/express'
+import middieFastify from '@fastify/middie'
 import { createStandardRequest } from 'fastify-standard-request-reply'
+import { createFetchRequest } from './fetch.mjs'
 import { getAssetMap } from './plugin-emit-stats.mjs'
-
-function createFetchRequest(req, res) {
-  const origin = `${req.protocol}://${req.get('host')}`
-  const url = new URL(req.originalUrl || req.url, origin)
-  const controller = new AbortController()
-  res.on('close', () => controller.abort())
-  const headers = new Headers()
-  for (const [key, values] of Object.entries(req.headers)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value)
-        }
-      } else {
-        headers.set(key, values)
-      }
-    }
-  }
-  const init = {
-    method: req.method,
-    headers,
-    signal: controller.signal
-  }
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
-    init.body = req.body
-  }
-
-  return new Request(url.href, init)
-}
 
 /**
  * @typedef {Awaited<ReturnType<Awaited<ReturnType<import('@rsbuild/core').createRsbuild>>['createDevServer']>>} DevServer
@@ -72,7 +44,7 @@ async function startDevServer() {
   const app = Fastify({
     logger: false
   })
-  await app.register(expressFastify)
+  await app.register(middieFastify)
   const rsbuildServer = await rsbuild.createDevServer()
   const serverRenderMiddleware = serverRender(rsbuildServer)
   app.get('*', async (request, reply) => {
@@ -88,9 +60,10 @@ async function startDevServer() {
     const standardRequsest = createFetchRequest(req, res)
     const { matches } = await indexModule.handler.query(standardRequsest)
     const uniqueMatches = matches.filter(match => match.route.path !== '*')
+    const pathname = new URL(standardRequsest.url).pathname
     if (
       uniqueMatches.length > 0 ||
-      ['/404', '500', '/_error'].includes(req.path)
+      ['/404', '500', '/_error'].includes(pathname)
     ) {
       return next()
     }
