@@ -1,7 +1,6 @@
 import { createRsbuild, loadConfig } from '@rsbuild/core'
-import Fastify from 'fastify'
-import expressFastify from '@fastify/express'
-import { createStandardRequest } from 'fastify-standard-request-reply'
+import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
 import { getAssetMap } from './plugin-emit-stats.mjs'
 
 function createFetchRequest(req, res) {
@@ -51,17 +50,16 @@ const getServerBundle = async serverAPI => {
 /**
  * @param {DevServer} serverAPI
  */
-const serverRender = serverAPI => async (request, reply) => {
+const serverRender = serverAPI => async c => {
   /**
    * @type {{ render: (...args: unknown[]) => Promise<Response> }}
    */
   const indexModule = await getServerBundle(serverAPI)
-  const ua = request.headers['user-agent']
+  const ua = c.req.header('user-agent')
   const stats = await serverAPI.environments.web.getStats()
   const assetMap = await getAssetMap(stats)
-  const standardRequsest = createStandardRequest(request, reply)
-  const response = await indexModule.render(assetMap, ua, standardRequsest)
-  return reply.send(response)
+  const response = await indexModule.render(assetMap, ua, c.req.raw)
+  return response
 }
 
 async function startDevServer() {
@@ -69,36 +67,70 @@ async function startDevServer() {
   const rsbuild = await createRsbuild({
     rsbuildConfig: content
   })
-  const app = Fastify({
-    logger: false
-  })
-  await app.register(expressFastify)
+
   const rsbuildServer = await rsbuild.createDevServer()
   const serverRenderMiddleware = serverRender(rsbuildServer)
-  app.get('*', async (request, reply) => {
-    try {
-      const res = await serverRenderMiddleware(request, reply)
-      return res
-    } catch (err) {
-      console.error('SSR render error\n', err)
-    }
-  })
-  app.use(async (req, res, next) => {
+
+  const app = new Hono()
+  app.use(async (c, next) => {
     const indexModule = await getServerBundle(rsbuildServer)
-    const standardRequsest = createFetchRequest(req, res)
-    const { matches } = await indexModule.handler.query(standardRequsest)
+    const { matches } = await indexModule.handler.query(c.req.raw)
     const uniqueMatches = matches.filter(match => match.route.path !== '*')
     if (
       uniqueMatches.length > 0 ||
-      ['/404', '500', '/_error'].includes(req.path)
+      ['/404', '500', '/_error'].includes(c.req.raw.url)
     ) {
-      return next()
+      return await next()
     }
-    return rsbuildServer.middlewares(req, res, next)
+    const createMiddleware = () =>
+      new Promise(resolve => {
+        let sent = false
+        console.log(c.env.outgoing.send)
+        rsbuildServer.middlewares(
+          c.env.incoming,
+          {
+            setHeader(name, value) {
+              headers.set(name, value)
+              return this
+            },
+            end(body) {
+              sent = true
+              console.log(c.req.path)
+              resolve(
+                c.body(body, {
+                  status: this.statusCode,
+                  statusText: this.statusMessage,
+                  headers
+                })
+              )
+            }
+          },
+          () => sent || resolve(next())
+        )
+      })
+    return await createMiddleware()
   })
-  await app.listen({ port: rsbuildServer.port })
-  await rsbuildServer.afterListen()
-  rsbuildServer.connectWebSocket({ server: app.server })
+
+  app.get('*', async (c, next) => {
+    try {
+      const res = await serverRenderMiddleware(c)
+      return res
+    } catch (err) {
+      console.error('SSR render error\n', err)
+      return await next()
+    }
+  })
+
+  const server = serve(
+    {
+      fetch: app.fetch,
+      port: rsbuildServer.port
+    },
+    () => {
+      rsbuildServer.afterListen()
+    }
+  )
+  rsbuildServer.connectWebSocket({ server: server })
 }
 
 void startDevServer(process.cwd())
