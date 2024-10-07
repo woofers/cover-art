@@ -28,10 +28,6 @@ export async function render(
   ua: string,
   request: Request
 ) {
-  const { router, context } = await getRouterAndContext(request)
-  const { renderToReadableStream } = await import(
-    'react-dom/server.edge' as 'react-dom/server'
-  )
   const controller = new AbortController()
   setTimeout(() => {
     controller.abort()
@@ -39,6 +35,10 @@ export async function render(
   const isCrawler = isBot(ua)
   try {
     let didError = false
+    const { router, context } = await getRouterAndContext(request)
+    const { renderToReadableStream } = await import(
+      'react-dom/server.edge' as 'react-dom/server'
+    )
     const stream = await renderToReadableStream(
       <StrictMode>
         <App assetMap={assetMap}>
