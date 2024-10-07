@@ -15,10 +15,10 @@ export const handler = createStaticHandler(routes)
 const getRouterAndContext = async (request: Request) => {
   const context = await handler.query(request)
   if (context instanceof Response) {
-    throw context
+    return { context } as never
   }
   const router = createStaticRouter(handler.dataRoutes, context)
-  return { router, context }
+  return { router, context: context as typeof context | Response }
 }
 
 const ABORT_DELAY = 10_000
@@ -28,6 +28,7 @@ export async function render(
   ua: string,
   request: Request
 ) {
+  const url = new URL(request.url)
   const controller = new AbortController()
   setTimeout(() => {
     controller.abort()
@@ -36,6 +37,17 @@ export async function render(
   try {
     let didError = false
     const { router, context } = await getRouterAndContext(request)
+    if (context instanceof Response) {
+      if ([301, 302, 303, 307, 308].includes(context.status)) {
+        const location = context.headers.get('Location') ?? '/'
+        return Response.redirect(
+          location.startsWith('/') ? url.origin + location : location,
+          context.status
+        )
+      } else {
+        throw new Error(`Can not redirect to a status of "${context.status}"`)
+      }
+    }
     const { renderToReadableStream } = await import(
       'react-dom/server.edge' as 'react-dom/server'
     )

@@ -31,7 +31,8 @@ const serverRender = serverAPI => async (request, reply) => {
   const ua = request.headers['user-agent']
   const stats = await serverAPI.environments.web.getStats()
   const assetMap = await getAssetMap(stats)
-  const standardRequsest = createStandardRequest(request, reply)
+  const re = createStandardRequest(request, reply)
+  const standardRequsest = new Request('http://127.0.0.1:3000' + new URL(re.url).pathname, re)
   const response = await indexModule.render(assetMap, ua, standardRequsest)
   return reply.send(response)
 }
@@ -58,7 +59,10 @@ async function startDevServer() {
   app.use(async (req, res, next) => {
     const indexModule = await getServerBundle(rsbuildServer)
     const standardRequsest = createFetchRequest(req, res)
-    const { matches } = await indexModule.handler.query(standardRequsest)
+    const { matches } = await indexModule.handler.query(standardRequsest) || {}
+    if (!matches) {
+      return next()
+    }
     const uniqueMatches = matches.filter(match => match.route.path !== '*')
     const pathname = new URL(standardRequsest.url).pathname
     if (

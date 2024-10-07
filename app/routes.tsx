@@ -1,5 +1,5 @@
 import React from 'react'
-import type { RouteObject } from 'react-router'
+import { redirect, type RouteObject } from 'react-router'
 
 const _reactRouterLazy =
   <T extends React.ComponentType>(loader: () => Promise<{ default: T }>) =>
@@ -18,5 +18,11 @@ export const routes = [
   {
     path: '/about',
     Component: React.lazy(() => import('./routes/about'))
+  },
+  {
+    path: '/redirect',
+    loader: async () => {
+      return redirect("/about")
+    }
   }
 ] satisfies RouteObject[]
