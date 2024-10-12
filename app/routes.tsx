@@ -22,7 +22,7 @@ export const routes = [
   {
     path: '/redirect',
     loader: async () => {
-      return redirect("/about")
+      return redirect('/about')
     }
   }
 ] satisfies RouteObject[]

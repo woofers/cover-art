@@ -10,30 +10,37 @@ import { getAssetMap } from './plugin-emit-stats.mjs'
  */
 
 /**
- * @param {DevServer} serverAPI
+ * @param {DevServer} rsbuildServer
  */
-const getServerBundle = async serverAPI => {
+const getServerBundle = async rsbuildServer => {
   /**
    * @type {{ render: (...args: unknown[]) => Promise<Response>, handler: { query: (req: Request) => Promise<{ matches: unknown[] }> } }}
    */
-  const indexModule = await serverAPI.environments.ssr.loadBundle('index')
+  const indexModule = await rsbuildServer.environments.ssr.loadBundle('index')
   return indexModule
 }
 
 /**
- * @param {DevServer} serverAPI
+ * @param {DevServer} rsbuildServer
  */
-const serverRender = serverAPI => async (request, reply) => {
+const serverRender = rsbuildServer => async (request, reply) => {
   /**
    * @type {{ render: (...args: unknown[]) => Promise<Response> }}
    */
-  const indexModule = await getServerBundle(serverAPI)
+  const indexModule = await getServerBundle(rsbuildServer)
   const ua = request.headers['user-agent']
-  const stats = await serverAPI.environments.web.getStats()
+  const stats = await rsbuildServer.environments.web.getStats()
   const assetMap = await getAssetMap(stats)
   const re = createStandardRequest(request, reply)
-  const standardRequsest = new Request('http://127.0.0.1:3000' + new URL(re.url).pathname, re)
-  const response = await indexModule.render(assetMap, ua, standardRequsest)
+  const standardRequsest = new Request(
+    'http://127.0.0.1:3000' + new URL(re.url).pathname,
+    re
+  )
+  const response = await indexModule.render({
+    request: standardRequsest,
+    ua,
+    assetMap
+  })
   return reply.send(response)
 }
 
@@ -59,7 +66,8 @@ async function startDevServer() {
   app.use(async (req, res, next) => {
     const indexModule = await getServerBundle(rsbuildServer)
     const standardRequsest = createFetchRequest(req, res)
-    const { matches } = await indexModule.handler.query(standardRequsest) || {}
+    const { matches } =
+      (await indexModule.handler.query(standardRequsest)) || {}
     if (!matches) {
       return next()
     }

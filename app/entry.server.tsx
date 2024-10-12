@@ -1,12 +1,12 @@
 import React, { StrictMode } from 'react'
-import App from './app'
-import { isBot, type AssetMap } from './utils'
 import {
   createStaticHandler,
   createStaticRouter,
   StaticRouterProvider
 } from 'react-router-dom/server'
 import { routes } from './routes'
+import App from './app'
+import { isBot, type AssetMap } from './utils'
 
 const headers = { 'content-type': 'text/html' }
 
@@ -21,14 +21,48 @@ const getRouterAndContext = async (request: Request) => {
   return { router, context: context as typeof context | Response }
 }
 
-const ABORT_DELAY = 10_000
+type RotuerContext = Awaited<ReturnType<typeof getRouterAndContext>>['context']
 
-export async function render(
-  assetMap = {} as AssetMap,
-  ua: string,
-  request: Request
-) {
-  const url = new URL(request.url)
+const ABORT_DELAY = 10_000
+const REDIRECT_STATUES = [301, 302, 303, 307, 308]
+
+const isRedirectStatus = (status: number) => REDIRECT_STATUES.includes(status)
+
+const getRedirectUrl = (request: Request, location?: string | null) => {
+  const value = location ?? '/'
+  try {
+    const originUrl = new URL(request.url)
+    const redirectUrl = new URL(value, originUrl.origin)
+    return redirectUrl.href
+  } catch {
+    return value
+  }
+}
+
+const handleRedirect = (request: Request, context: RotuerContext) => {
+  if (context instanceof Response) {
+    if (isRedirectStatus(context.status)) {
+      return Response.redirect(
+        getRedirectUrl(request, context.headers.get('Location')),
+        context.status
+      )
+    }
+  }
+}
+
+function assertContext(
+  context: RotuerContext
+): asserts context is Exclude<RotuerContext, Response> {
+  if (context instanceof Response) {
+    throw new Error(`Can not redirect to a status of "${context.status}"`)
+  }
+}
+
+export async function render({
+  request,
+  ua,
+  assetMap
+}: { assetMap: AssetMap; ua: string; request: Request }) {
   const controller = new AbortController()
   setTimeout(() => {
     controller.abort()
@@ -37,17 +71,9 @@ export async function render(
   try {
     let didError = false
     const { router, context } = await getRouterAndContext(request)
-    if (context instanceof Response) {
-      if ([301, 302, 303, 307, 308].includes(context.status)) {
-        const location = context.headers.get('Location') ?? '/'
-        return Response.redirect(
-          location.startsWith('/') ? url.origin + location : location,
-          context.status
-        )
-      } else {
-        throw new Error(`Can not redirect to a status of "${context.status}"`)
-      }
-    }
+    const redirect = handleRedirect(request, context)
+    if (redirect) return redirect
+    assertContext(context)
     const { renderToReadableStream } = await import(
       'react-dom/server.edge' as 'react-dom/server'
     )
