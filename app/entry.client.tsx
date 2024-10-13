@@ -1,12 +1,15 @@
-import React, { StrictMode, startTransition } from 'react'
+import React, { StrictMode, startTransition, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
   matchRoutes,
-  RouterProvider
+  RouterProvider,
+  RouterProviderProps
 } from 'react-router-dom'
 import { routes } from './routes'
 import App from './app'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { getQueryClient } from 'utils/query-client'
 
 void hydrate()
 
@@ -28,17 +31,25 @@ async function loadLazyRoutes() {
   }
 }
 
+const ClientApp: React.FC<Pick<RouterProviderProps, 'router'>> = ({
+  router
+}) => {
+  const [queryClient] = useState(getQueryClient)
+  return (
+    <StrictMode>
+      <App assetMap={window.assetMap}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} fallbackElement={null} />
+        </QueryClientProvider>
+      </App>
+    </StrictMode>
+  )
+}
+
 async function hydrate() {
   await loadLazyRoutes()
   const router = createBrowserRouter(routes)
   startTransition(() => {
-    hydrateRoot(
-      document,
-      <StrictMode>
-        <App assetMap={window.assetMap}>
-          <RouterProvider router={router} fallbackElement={null} />
-        </App>
-      </StrictMode>
-    )
+    hydrateRoot(document, <ClientApp router={router} />)
   })
 }

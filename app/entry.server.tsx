@@ -4,9 +4,15 @@ import {
   createStaticRouter,
   StaticRouterProvider
 } from 'react-router-dom/server'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClientProvider
+} from '@tanstack/react-query'
 import { routes } from './routes'
 import App from './app'
 import { isBot, type AssetMap } from './utils'
+import { getQueryClient } from 'utils/query-client'
 
 const headers = { 'content-type': 'text/html' }
 
@@ -70,21 +76,27 @@ export async function render({
   const isCrawler = isBot(ua)
   try {
     let didError = false
+    const queryClient = getQueryClient()
     const { router, context } = await getRouterAndContext(request)
     const redirect = handleRedirect(request, context)
     if (redirect) return redirect
     assertContext(context)
+    const dehydratedState = dehydrate(queryClient)
     const { renderToReadableStream } = await import(
       'react-dom/server.edge' as 'react-dom/server'
     )
     const stream = await renderToReadableStream(
       <StrictMode>
         <App assetMap={assetMap}>
-          <StaticRouterProvider
-            router={router}
-            context={context}
-            hydrate={true}
-          />
+          <QueryClientProvider client={queryClient}>
+            <HydrationBoundary state={dehydratedState}>
+              <StaticRouterProvider
+                router={router}
+                context={context}
+                hydrate={true}
+              />
+            </HydrationBoundary>
+          </QueryClientProvider>
         </App>
       </StrictMode>,
       {

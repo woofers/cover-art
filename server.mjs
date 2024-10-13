@@ -66,16 +66,23 @@ async function startDevServer() {
   app.use(async (req, res, next) => {
     const indexModule = await getServerBundle(rsbuildServer)
     const standardRequsest = createFetchRequest(req, res)
-    const { matches } =
-      (await indexModule.handler.query(standardRequsest)) || {}
+    let queryResponse
+    try {
+      queryResponse = (await indexModule.handler.query(standardRequsest)) || {}
+    } catch {
+      return next()
+    }
+    const { matches } = queryResponse || {}
     if (!matches) {
       return next()
     }
-    const uniqueMatches = matches.filter(match => match.route.path !== '*')
+    const uniqueMatches = matches.filter(
+      match => match.route.path !== '/' && match.route?.path !== '*'
+    )
     const pathname = new URL(standardRequsest.url).pathname
     if (
       uniqueMatches.length > 0 ||
-      ['/404', '500', '/_error'].includes(pathname)
+      ['/', '/404', '500', '/_error'].includes(pathname)
     ) {
       return next()
     }

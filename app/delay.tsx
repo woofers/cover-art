@@ -1,8 +1,9 @@
 import React, { use } from 'react'
+import { delay } from 'utils/delay'
 
-const delayMessage = async (delay: number) => {
-  await new Promise(r => setTimeout(r, delay))
-  return `Loaded after ${delay}ms`
+const delayMessage = async (ms: number) => {
+  await delay(ms)
+  return `Loaded after ${ms}ms`
 }
 
 const Delay: React.FC<{ delay: number }> = ({ delay = 1000 }) => {
