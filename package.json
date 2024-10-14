@@ -4,7 +4,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf build dist",
-    "build": "rsbuild build && rimraf build/index.html && cp cf-server.mjs build/cf-server.mjs",
+    "build": "rsbuild build && rimraf build/index.html",
     "dev": "node ./cf-server.mjs",
     "lint": "biome lint --error-on-warnings",
     "start": "node ./server.mjs",

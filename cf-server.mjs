@@ -2,12 +2,36 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-app.get('/public/*', async ctx => {
+const readManifest = async () => {
+  const data = await import("./build/build-manifest.json")
+  return data
+}
+
+const serverRender = async (c, assetMap) => {
+  console.log(require)
+  const importedApp = await import("./build/server/index.js")
+  const ua = c.req.header('user-agent')
+  const response = await importedApp.render({
+    request: c.req.raw,
+    ua,
+    assetMap
+  })
+  return response
+}
+
+app.get('/static/*', async ctx => {
   return await ctx.env.ASSETS.fetch(ctx.req.raw)
 })
-app.get('/', async (c, next) => {
-  console.log('hi')
-  return c.text('hello')
+app.get('*', async (c, next) => {
+  const manifest = await readManifest()
+  try {
+    const res = await serverRender(c, manifest)
+    return res
+  } catch (err) {
+    console.error('SSR render error\n', err)
+    await next()
+  }
 })
+
 
 export default app

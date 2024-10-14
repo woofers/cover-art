@@ -5,6 +5,7 @@ const distPath = { root: 'build' }
 
 export default {
   plugins: [pluginReact(), pluginEmitStats()],
+
   environments: {
     web: {
       output: {
@@ -26,12 +27,19 @@ export default {
       },
       source: {
         entry: {
-          index: './app/entry.server'
+          index: './app/entry.server',
         }
-      }
+      },
     }
   },
   output: {
     distPath
+  },
+  tools: {
+    rspack: {
+      output: {
+        asyncChunks: false,
+      },
+    },
   }
 }
