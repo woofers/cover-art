@@ -39,7 +39,7 @@ importers:
         specifier: ^2.5.2
         version: 2.5.2
       wrangler:
-        specifier: ^3.80.4
+        specifier: 3.80.4
         version: 3.80.4
     devDependencies:
       '@biomejs/biome':
