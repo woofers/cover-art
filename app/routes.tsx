@@ -37,6 +37,10 @@ export const routes = [
         }
       },
       {
+        path: '/suspense',
+        Component: React.lazy(() => import('./routes/suspense'))
+      },
+      {
         path: '/redirect',
         loader: async () => {
           return redirect('/about')
