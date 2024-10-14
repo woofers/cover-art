@@ -1,7 +1,3 @@
-import { Hono } from 'hono'
-
-const app = new Hono()
-
 const readManifest = async () => {
   const data = await import('./build/build-manifest.json')
   return data
@@ -18,7 +14,7 @@ const serverRender = async (c, assetMap) => {
   return response
 }
 
-app.get('*', async (c, next) => {
+export const onRequest = async c => {
   const manifest = await readManifest()
   try {
     const res = await serverRender(c, manifest)
@@ -27,6 +23,6 @@ app.get('*', async (c, next) => {
     console.error('SSR render error\n', err)
     await next()
   }
-})
+}
 
-export default app
+
