@@ -1,10 +1,10 @@
 const readManifest = async () => {
-  const data = await import('../../build/build-manifest.json')
+  const data = await import('../build/build-manifest.json')
   return data
 }
 
 const serverRender = async (c, assetMap) => {
-  const importedApp = await import('../../build/server/index.js')
+  const importedApp = await import('../build/server/index.js')
   const ua = c.req.header('user-agent')
   const response = await importedApp.render({
     request: c.req.raw,
