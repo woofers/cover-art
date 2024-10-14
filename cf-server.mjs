@@ -8,7 +8,6 @@ const readManifest = async () => {
 }
 
 const serverRender = async (c, assetMap) => {
-  console.log(require)
   const importedApp = await import("./build/server/index.js")
   const ua = c.req.header('user-agent')
   const response = await importedApp.render({
@@ -19,9 +18,7 @@ const serverRender = async (c, assetMap) => {
   return response
 }
 
-app.get('/static/*', async ctx => {
-  return await ctx.env.ASSETS.fetch(ctx.req.raw)
-})
+
 app.get('*', async (c, next) => {
   const manifest = await readManifest()
   try {
