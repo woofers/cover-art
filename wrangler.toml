@@ -1,0 +1,4 @@
+name = "cover-art"
+main = "prod-server.mjs"
+compatibility_date = "2024-09-02"
+compatibility_flags = ["nodejs_compat"]

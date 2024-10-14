@@ -70,7 +70,7 @@ export async function render({
   assetMap
 }: { assetMap: AssetMap; ua: string; request: Request }) {
   const controller = new AbortController()
-  setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     controller.abort()
   }, ABORT_DELAY)
   const isCrawler = isBot(ua)
@@ -109,6 +109,7 @@ export async function render({
         }
       }
     )
+    void stream.allReady.then(() => clearTimeout(timeoutId))
     if (isCrawler) {
       await stream.allReady
     }
