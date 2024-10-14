@@ -5,23 +5,29 @@ const readManifest = async () => {
 
 const serverRender = async (c, assetMap) => {
   const importedApp = await import('../build/server/index.js')
-  const ua = c.req.header('user-agent')
+  const ua = c.request.headers.get('user-agent')
   const response = await importedApp.render({
-    request: c.req.raw,
+    request: c.request,
     ua,
     assetMap
   })
   return response
 }
 
-export const onRequest = async c => {
+export const onRequest = async (c) => {
   const manifest = await readManifest()
   try {
     const res = await serverRender(c, manifest)
     return res
   } catch (err) {
     console.error('SSR render error\n', err)
-    await next()
+    if (err instanceof Response) {
+        return err
+    }
+    return new Response('<h1>Something went wrong</h1>', {
+        status: 500,
+        headers
+      })
   }
 }
 

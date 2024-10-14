@@ -27,9 +27,9 @@ export default {
       },
       source: {
         entry: {
-          index: './app/entry.server',
+          index: './app/entry.server'
         }
-      },
+      }
     }
   },
   output: {
@@ -38,8 +38,8 @@ export default {
   tools: {
     rspack: {
       output: {
-        asyncChunks: false,
-      },
-    },
+        asyncChunks: false
+      }
+    }
   }
 }
