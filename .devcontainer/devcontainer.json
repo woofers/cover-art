@@ -1,0 +1,14 @@
+{
+    "customizations": {
+      "codespaces": {
+        "repositories": {
+          "woofers/cover-art": {
+          "permissions": "write-all"
+          },
+          "woofers/react-rsbuild-steaming-ssr": {
+            "permissions": "write-all"
+            }
+        }
+      }
+    }
+    }
