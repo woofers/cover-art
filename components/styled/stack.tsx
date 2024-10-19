@@ -1,6 +1,6 @@
 import Box from './box'
-import { cva, clsx } from 'cva'
-import type { VariantProps } from 'cva'
+import { cva, cx } from 'style'
+import type { VariantProps } from 'style'
 import type { BoxProps } from './box'
 
 const values = [
@@ -48,7 +48,7 @@ const gutter: GutterSetup = {
   '3.5': ['gap-y-3.5']
 }
 
-const stack = cva([], {
+const stack = cva({
   variants: {
     gutter
   }
@@ -67,7 +67,7 @@ const Stack: React.FC<StackProps> = ({
   <Box
     display="flex"
     flexDirection="column"
-    className={clsx(stack({ gutter }), className)}
+    className={cx(stack({ gutter }), className)}
     {...rest}
   >
     {children}

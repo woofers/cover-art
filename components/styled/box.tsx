@@ -1,8 +1,9 @@
-import { clsx, cva } from 'cva'
-import type { VariantProps } from 'cva'
+import { cx, cva } from 'style'
+import type { VariantProps } from 'style'
 import React from 'react'
 
-const box = cva(['min-w-0', 'box-border', 'm-0'], {
+const box = cva({
+  base: ['min-w-0', 'box-border', 'm-0'],
   variants: {
     display: {
       block: ['block'],
@@ -104,7 +105,7 @@ const Box = React.forwardRef(
       <Component
         {...rest}
         ref={ref}
-        className={clsx(
+        className={cx(
           box({
             display,
             justifyContent,
