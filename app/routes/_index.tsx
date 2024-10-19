@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout } from '../layout'
 import Delay from 'app/delay'
 import { Link } from 'react-router-dom'
+import Colors from 'components/styled/colors'
 
 const IndexPage = () => {
   return (
@@ -17,6 +18,7 @@ const IndexPage = () => {
       <React.Suspense fallback={<p>Loading 1000ms</p>}>
         <Delay delay={1000} />
       </React.Suspense>
+      <Colors />
     </Layout>
   )
 }

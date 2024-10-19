@@ -15,7 +15,7 @@ const serverRender = async (c, assetMap) => {
   return response
 }
 
-export const onRequest = async (c) => {
+export const onRequest = async c => {
   const manifest = await readManifest()
   try {
     const res = await serverRender(c, manifest)
@@ -32,5 +32,3 @@ export const onRequest = async (c) => {
     }
   }
 }
-
-

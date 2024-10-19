@@ -1,6 +1,6 @@
 import React from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import { HydrationBoundary, useQueryClient } from '@tanstack/react-query'
+import { Outlet } from 'react-router-dom'
+import { HydrationBoundary } from '@tanstack/react-query'
 import { useDehydratedState } from 'hooks/use-dehydrated-state'
 
 const Hydrate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
